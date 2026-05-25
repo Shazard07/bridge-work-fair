@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { LangProvider } from "@/lib/lang";
+
 
 function NotFoundComponent() {
   return (
@@ -72,14 +74,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "BridgeWork — Find work in Singapore. Pay nothing." },
+      { name: "description", content: "BridgeWork connects migrant workers from Tamil Nadu directly to licensed Singapore employment agents. Zero fees, full transparency, no brokers." },
+      { name: "author", content: "BridgeWork" },
+      { property: "og:title", content: "BridgeWork — Find work in Singapore. Pay nothing." },
+      { property: "og:description", content: "Direct connection between Tamil Nadu workers and licensed Singapore EA agents. Workers pay zero fees. Ever." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+
     ],
     links: [
       {
@@ -113,7 +115,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <LangProvider>
+        <Outlet />
+      </LangProvider>
     </QueryClientProvider>
   );
 }
+
