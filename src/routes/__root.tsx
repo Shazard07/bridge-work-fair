@@ -78,10 +78,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "BridgeWork connects migrant workers from Tamil Nadu directly to licensed Singapore employment agents. Zero fees, full transparency, no brokers." },
       { name: "author", content: "BridgeWork" },
       { property: "og:title", content: "BridgeWork — Find work in Singapore. Pay nothing." },
-      { property: "og:description", content: "Direct connection between Tamil Nadu workers and licensed Singapore EA agents. Workers pay zero fees. Ever." },
+      { property: "og:description", content: "BridgeWork connects migrant workers from Tamil Nadu directly to licensed Singapore employment agents. Zero fees, full transparency, no brokers." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
 
+      { name: "twitter:title", content: "BridgeWork — Find work in Singapore. Pay nothing." },
+      { name: "twitter:description", content: "BridgeWork connects migrant workers from Tamil Nadu directly to licensed Singapore employment agents. Zero fees, full transparency, no brokers." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/588f52ff-ac97-4ef8-a5a4-c142419d9e2c/id-preview-a180ef78--d72a3e49-15d8-40c9-b043-1fce074c52d6.lovable.app-1779698149924.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/588f52ff-ac97-4ef8-a5a4-c142419d9e2c/id-preview-a180ef78--d72a3e49-15d8-40c9-b043-1fce074c52d6.lovable.app-1779698149924.png" },
     ],
     links: [
       {
