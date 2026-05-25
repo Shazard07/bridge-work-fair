@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Award, MapPin, Briefcase, Calendar } from "lucide-react";
 
-export const Route = createFileRoute("/worker/profile/view")({
+export const Route = createFileRoute("/worker/preview")({
   head: () => ({
     meta: [
       { title: "Profile preview — BridgeWork" },

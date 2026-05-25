@@ -15,8 +15,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkerIndexRouteImport } from './routes/worker.index'
 import { Route as WorkerWellbeingRouteImport } from './routes/worker.wellbeing'
 import { Route as WorkerProfileRouteImport } from './routes/worker.profile'
+import { Route as WorkerPreviewRouteImport } from './routes/worker.preview'
 import { Route as GuideCertificationsRouteImport } from './routes/guide.certifications'
-import { Route as WorkerProfileViewRouteImport } from './routes/worker.profile.view'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -48,15 +48,15 @@ const WorkerProfileRoute = WorkerProfileRouteImport.update({
   path: '/worker/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkerPreviewRoute = WorkerPreviewRouteImport.update({
+  id: '/worker/preview',
+  path: '/worker/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuideCertificationsRoute = GuideCertificationsRouteImport.update({
   id: '/guide/certifications',
   path: '/guide/certifications',
   getParentRoute: () => rootRouteImport,
-} as any)
-const WorkerProfileViewRoute = WorkerProfileViewRouteImport.update({
-  id: '/view',
-  path: '/view',
-  getParentRoute: () => WorkerProfileRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -64,20 +64,20 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/guide/certifications': typeof GuideCertificationsRoute
-  '/worker/profile': typeof WorkerProfileRouteWithChildren
+  '/worker/preview': typeof WorkerPreviewRoute
+  '/worker/profile': typeof WorkerProfileRoute
   '/worker/wellbeing': typeof WorkerWellbeingRoute
   '/worker/': typeof WorkerIndexRoute
-  '/worker/profile/view': typeof WorkerProfileViewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/guide/certifications': typeof GuideCertificationsRoute
-  '/worker/profile': typeof WorkerProfileRouteWithChildren
+  '/worker/preview': typeof WorkerPreviewRoute
+  '/worker/profile': typeof WorkerProfileRoute
   '/worker/wellbeing': typeof WorkerWellbeingRoute
   '/worker': typeof WorkerIndexRoute
-  '/worker/profile/view': typeof WorkerProfileViewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -85,10 +85,10 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/guide/certifications': typeof GuideCertificationsRoute
-  '/worker/profile': typeof WorkerProfileRouteWithChildren
+  '/worker/preview': typeof WorkerPreviewRoute
+  '/worker/profile': typeof WorkerProfileRoute
   '/worker/wellbeing': typeof WorkerWellbeingRoute
   '/worker/': typeof WorkerIndexRoute
-  '/worker/profile/view': typeof WorkerProfileViewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,30 +97,30 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/guide/certifications'
+    | '/worker/preview'
     | '/worker/profile'
     | '/worker/wellbeing'
     | '/worker/'
-    | '/worker/profile/view'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/signup'
     | '/guide/certifications'
+    | '/worker/preview'
     | '/worker/profile'
     | '/worker/wellbeing'
     | '/worker'
-    | '/worker/profile/view'
   id:
     | '__root__'
     | '/'
     | '/login'
     | '/signup'
     | '/guide/certifications'
+    | '/worker/preview'
     | '/worker/profile'
     | '/worker/wellbeing'
     | '/worker/'
-    | '/worker/profile/view'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -128,7 +128,8 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
   GuideCertificationsRoute: typeof GuideCertificationsRoute
-  WorkerProfileRoute: typeof WorkerProfileRouteWithChildren
+  WorkerPreviewRoute: typeof WorkerPreviewRoute
+  WorkerProfileRoute: typeof WorkerProfileRoute
   WorkerWellbeingRoute: typeof WorkerWellbeingRoute
   WorkerIndexRoute: typeof WorkerIndexRoute
 }
@@ -177,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkerProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/worker/preview': {
+      id: '/worker/preview'
+      path: '/worker/preview'
+      fullPath: '/worker/preview'
+      preLoaderRoute: typeof WorkerPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guide/certifications': {
       id: '/guide/certifications'
       path: '/guide/certifications'
@@ -184,34 +192,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuideCertificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/worker/profile/view': {
-      id: '/worker/profile/view'
-      path: '/view'
-      fullPath: '/worker/profile/view'
-      preLoaderRoute: typeof WorkerProfileViewRouteImport
-      parentRoute: typeof WorkerProfileRoute
-    }
   }
 }
-
-interface WorkerProfileRouteChildren {
-  WorkerProfileViewRoute: typeof WorkerProfileViewRoute
-}
-
-const WorkerProfileRouteChildren: WorkerProfileRouteChildren = {
-  WorkerProfileViewRoute: WorkerProfileViewRoute,
-}
-
-const WorkerProfileRouteWithChildren = WorkerProfileRoute._addFileChildren(
-  WorkerProfileRouteChildren,
-)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
   GuideCertificationsRoute: GuideCertificationsRoute,
-  WorkerProfileRoute: WorkerProfileRouteWithChildren,
+  WorkerPreviewRoute: WorkerPreviewRoute,
+  WorkerProfileRoute: WorkerProfileRoute,
   WorkerWellbeingRoute: WorkerWellbeingRoute,
   WorkerIndexRoute: WorkerIndexRoute,
 }
