@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { LangProvider } from "@/lib/lang";
+
 
 function NotFoundComponent() {
   return (
