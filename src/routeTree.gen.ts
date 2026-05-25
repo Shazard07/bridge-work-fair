@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgentIndexRouteImport } from './routes/agent.index'
 import { Route as SignupWorkerRouteImport } from './routes/signup.worker'
 import { Route as SignupAgentRouteImport } from './routes/signup.agent'
+import { Route as AgentJobsNewRouteImport } from './routes/agent.jobs.new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const SignupAgentRoute = SignupAgentRouteImport.update({
   path: '/signup/agent',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgentJobsNewRoute = AgentJobsNewRouteImport.update({
+  id: '/agent/jobs/new',
+  path: '/agent/jobs/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/signup/agent': typeof SignupAgentRoute
   '/signup/worker': typeof SignupWorkerRoute
   '/agent/': typeof AgentIndexRoute
+  '/agent/jobs/new': typeof AgentJobsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/signup/agent': typeof SignupAgentRoute
   '/signup/worker': typeof SignupWorkerRoute
   '/agent': typeof AgentIndexRoute
+  '/agent/jobs/new': typeof AgentJobsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,25 @@ export interface FileRoutesById {
   '/signup/agent': typeof SignupAgentRoute
   '/signup/worker': typeof SignupWorkerRoute
   '/agent/': typeof AgentIndexRoute
+  '/agent/jobs/new': typeof AgentJobsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/signup/agent' | '/signup/worker' | '/agent/'
+  fullPaths:
+    | '/'
+    | '/signup/agent'
+    | '/signup/worker'
+    | '/agent/'
+    | '/agent/jobs/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/signup/agent' | '/signup/worker' | '/agent'
-  id: '__root__' | '/' | '/signup/agent' | '/signup/worker' | '/agent/'
+  to: '/' | '/signup/agent' | '/signup/worker' | '/agent' | '/agent/jobs/new'
+  id:
+    | '__root__'
+    | '/'
+    | '/signup/agent'
+    | '/signup/worker'
+    | '/agent/'
+    | '/agent/jobs/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +87,7 @@ export interface RootRouteChildren {
   SignupAgentRoute: typeof SignupAgentRoute
   SignupWorkerRoute: typeof SignupWorkerRoute
   AgentIndexRoute: typeof AgentIndexRoute
+  AgentJobsNewRoute: typeof AgentJobsNewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupAgentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agent/jobs/new': {
+      id: '/agent/jobs/new'
+      path: '/agent/jobs/new'
+      fullPath: '/agent/jobs/new'
+      preLoaderRoute: typeof AgentJobsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +135,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignupAgentRoute: SignupAgentRoute,
   SignupWorkerRoute: SignupWorkerRoute,
   AgentIndexRoute: AgentIndexRoute,
+  AgentJobsNewRoute: AgentJobsNewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
