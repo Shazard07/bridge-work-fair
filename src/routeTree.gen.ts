@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkerIndexRouteImport } from './routes/worker.index'
 import { Route as AgentIndexRouteImport } from './routes/agent.index'
 import { Route as WorkerJobsRouteImport } from './routes/worker.jobs'
+import { Route as WorkerApplicationsRouteImport } from './routes/worker.applications'
 import { Route as SignupWorkerRouteImport } from './routes/signup.worker'
 import { Route as SignupAgentRouteImport } from './routes/signup.agent'
 import { Route as AgentWorkersRouteImport } from './routes/agent.workers'
@@ -39,6 +40,11 @@ const AgentIndexRoute = AgentIndexRouteImport.update({
 const WorkerJobsRoute = WorkerJobsRouteImport.update({
   id: '/worker/jobs',
   path: '/worker/jobs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkerApplicationsRoute = WorkerApplicationsRouteImport.update({
+  id: '/worker/applications',
+  path: '/worker/applications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupWorkerRoute = SignupWorkerRouteImport.update({
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/agent/workers': typeof AgentWorkersRouteWithChildren
   '/signup/agent': typeof SignupAgentRoute
   '/signup/worker': typeof SignupWorkerRoute
+  '/worker/applications': typeof WorkerApplicationsRoute
   '/worker/jobs': typeof WorkerJobsRouteWithChildren
   '/agent/': typeof AgentIndexRoute
   '/worker/': typeof WorkerIndexRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/agent/workers': typeof AgentWorkersRouteWithChildren
   '/signup/agent': typeof SignupAgentRoute
   '/signup/worker': typeof SignupWorkerRoute
+  '/worker/applications': typeof WorkerApplicationsRoute
   '/worker/jobs': typeof WorkerJobsRouteWithChildren
   '/agent': typeof AgentIndexRoute
   '/worker': typeof WorkerIndexRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/agent/workers': typeof AgentWorkersRouteWithChildren
   '/signup/agent': typeof SignupAgentRoute
   '/signup/worker': typeof SignupWorkerRoute
+  '/worker/applications': typeof WorkerApplicationsRoute
   '/worker/jobs': typeof WorkerJobsRouteWithChildren
   '/agent/': typeof AgentIndexRoute
   '/worker/': typeof WorkerIndexRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/agent/workers'
     | '/signup/agent'
     | '/signup/worker'
+    | '/worker/applications'
     | '/worker/jobs'
     | '/agent/'
     | '/worker/'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/agent/workers'
     | '/signup/agent'
     | '/signup/worker'
+    | '/worker/applications'
     | '/worker/jobs'
     | '/agent'
     | '/worker'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/agent/workers'
     | '/signup/agent'
     | '/signup/worker'
+    | '/worker/applications'
     | '/worker/jobs'
     | '/agent/'
     | '/worker/'
@@ -165,6 +177,7 @@ export interface RootRouteChildren {
   AgentWorkersRoute: typeof AgentWorkersRouteWithChildren
   SignupAgentRoute: typeof SignupAgentRoute
   SignupWorkerRoute: typeof SignupWorkerRoute
+  WorkerApplicationsRoute: typeof WorkerApplicationsRoute
   WorkerJobsRoute: typeof WorkerJobsRouteWithChildren
   AgentIndexRoute: typeof AgentIndexRoute
   WorkerIndexRoute: typeof WorkerIndexRoute
@@ -199,6 +212,13 @@ declare module '@tanstack/react-router' {
       path: '/worker/jobs'
       fullPath: '/worker/jobs'
       preLoaderRoute: typeof WorkerJobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/worker/applications': {
+      id: '/worker/applications'
+      path: '/worker/applications'
+      fullPath: '/worker/applications'
+      preLoaderRoute: typeof WorkerApplicationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signup/worker': {
@@ -283,6 +303,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgentWorkersRoute: AgentWorkersRouteWithChildren,
   SignupAgentRoute: SignupAgentRoute,
   SignupWorkerRoute: SignupWorkerRoute,
+  WorkerApplicationsRoute: WorkerApplicationsRoute,
   WorkerJobsRoute: WorkerJobsRouteWithChildren,
   AgentIndexRoute: AgentIndexRoute,
   WorkerIndexRoute: WorkerIndexRoute,
