@@ -8,7 +8,7 @@ type Role = "worker" | "public";
 const NAV: { to: string; en: string; ta: string }[] = [
   { to: "/worker",                en: "Dashboard",      ta: "முகப்பு" },
   { to: "/worker/profile",        en: "My Profile",     ta: "சுயவிவரம்" },
-  { to: "/worker/profile/view",   en: "Preview",        ta: "முன்னோட்டம்" },
+  { to: "/worker/preview",   en: "Preview",        ta: "முன்னோட்டம்" },
   { to: "/guide/certifications",  en: "Cert Guide",     ta: "சான்றிதழ் வழிகாட்டி" },
 ];
 
