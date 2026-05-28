@@ -9,23 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SignupRouteImport } from './routes/signup'
-import { Route as LoginRouteImport } from './routes/login'
+import { Route as FeesRouteImport } from './routes/fees'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkerIndexRouteImport } from './routes/worker.index'
-import { Route as WorkerWellbeingRouteImport } from './routes/worker.wellbeing'
+import { Route as AgentIndexRouteImport } from './routes/agent.index'
 import { Route as WorkerProfileRouteImport } from './routes/worker.profile'
-import { Route as WorkerPreviewRouteImport } from './routes/worker.preview'
-import { Route as GuideCertificationsRouteImport } from './routes/guide.certifications'
+import { Route as WorkerJobsRouteImport } from './routes/worker.jobs'
+import { Route as WorkerApplicationsRouteImport } from './routes/worker.applications'
+import { Route as SignupWorkerRouteImport } from './routes/signup.worker'
+import { Route as SignupAgentRouteImport } from './routes/signup.agent'
+import { Route as AgentWorkersRouteImport } from './routes/agent.workers'
+import { Route as AgentPipelineRouteImport } from './routes/agent.pipeline'
+import { Route as WorkerJobsIdRouteImport } from './routes/worker.jobs.$id'
+import { Route as AgentWorkersIdRouteImport } from './routes/agent.workers.$id'
+import { Route as AgentJobsNewRouteImport } from './routes/agent.jobs.new'
 
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const FeesRoute = FeesRouteImport.update({
+  id: '/fees',
+  path: '/fees',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -38,9 +39,9 @@ const WorkerIndexRoute = WorkerIndexRouteImport.update({
   path: '/worker/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WorkerWellbeingRoute = WorkerWellbeingRouteImport.update({
-  id: '/worker/wellbeing',
-  path: '/worker/wellbeing',
+const AgentIndexRoute = AgentIndexRouteImport.update({
+  id: '/agent/',
+  path: '/agent/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkerProfileRoute = WorkerProfileRouteImport.update({
@@ -48,106 +49,174 @@ const WorkerProfileRoute = WorkerProfileRouteImport.update({
   path: '/worker/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WorkerPreviewRoute = WorkerPreviewRouteImport.update({
-  id: '/worker/preview',
-  path: '/worker/preview',
+const WorkerJobsRoute = WorkerJobsRouteImport.update({
+  id: '/worker/jobs',
+  path: '/worker/jobs',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GuideCertificationsRoute = GuideCertificationsRouteImport.update({
-  id: '/guide/certifications',
-  path: '/guide/certifications',
+const WorkerApplicationsRoute = WorkerApplicationsRouteImport.update({
+  id: '/worker/applications',
+  path: '/worker/applications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupWorkerRoute = SignupWorkerRouteImport.update({
+  id: '/signup/worker',
+  path: '/signup/worker',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupAgentRoute = SignupAgentRouteImport.update({
+  id: '/signup/agent',
+  path: '/signup/agent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentWorkersRoute = AgentWorkersRouteImport.update({
+  id: '/agent/workers',
+  path: '/agent/workers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentPipelineRoute = AgentPipelineRouteImport.update({
+  id: '/agent/pipeline',
+  path: '/agent/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkerJobsIdRoute = WorkerJobsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => WorkerJobsRoute,
+} as any)
+const AgentWorkersIdRoute = AgentWorkersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AgentWorkersRoute,
+} as any)
+const AgentJobsNewRoute = AgentJobsNewRouteImport.update({
+  id: '/agent/jobs/new',
+  path: '/agent/jobs/new',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
-  '/guide/certifications': typeof GuideCertificationsRoute
-  '/worker/preview': typeof WorkerPreviewRoute
+  '/fees': typeof FeesRoute
+  '/agent/pipeline': typeof AgentPipelineRoute
+  '/agent/workers': typeof AgentWorkersRouteWithChildren
+  '/signup/agent': typeof SignupAgentRoute
+  '/signup/worker': typeof SignupWorkerRoute
+  '/worker/applications': typeof WorkerApplicationsRoute
+  '/worker/jobs': typeof WorkerJobsRouteWithChildren
   '/worker/profile': typeof WorkerProfileRoute
-  '/worker/wellbeing': typeof WorkerWellbeingRoute
+  '/agent/': typeof AgentIndexRoute
   '/worker/': typeof WorkerIndexRoute
+  '/agent/jobs/new': typeof AgentJobsNewRoute
+  '/agent/workers/$id': typeof AgentWorkersIdRoute
+  '/worker/jobs/$id': typeof WorkerJobsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
-  '/guide/certifications': typeof GuideCertificationsRoute
-  '/worker/preview': typeof WorkerPreviewRoute
+  '/fees': typeof FeesRoute
+  '/agent/pipeline': typeof AgentPipelineRoute
+  '/agent/workers': typeof AgentWorkersRouteWithChildren
+  '/signup/agent': typeof SignupAgentRoute
+  '/signup/worker': typeof SignupWorkerRoute
+  '/worker/applications': typeof WorkerApplicationsRoute
+  '/worker/jobs': typeof WorkerJobsRouteWithChildren
   '/worker/profile': typeof WorkerProfileRoute
-  '/worker/wellbeing': typeof WorkerWellbeingRoute
+  '/agent': typeof AgentIndexRoute
   '/worker': typeof WorkerIndexRoute
+  '/agent/jobs/new': typeof AgentJobsNewRoute
+  '/agent/workers/$id': typeof AgentWorkersIdRoute
+  '/worker/jobs/$id': typeof WorkerJobsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
-  '/guide/certifications': typeof GuideCertificationsRoute
-  '/worker/preview': typeof WorkerPreviewRoute
+  '/fees': typeof FeesRoute
+  '/agent/pipeline': typeof AgentPipelineRoute
+  '/agent/workers': typeof AgentWorkersRouteWithChildren
+  '/signup/agent': typeof SignupAgentRoute
+  '/signup/worker': typeof SignupWorkerRoute
+  '/worker/applications': typeof WorkerApplicationsRoute
+  '/worker/jobs': typeof WorkerJobsRouteWithChildren
   '/worker/profile': typeof WorkerProfileRoute
-  '/worker/wellbeing': typeof WorkerWellbeingRoute
+  '/agent/': typeof AgentIndexRoute
   '/worker/': typeof WorkerIndexRoute
+  '/agent/jobs/new': typeof AgentJobsNewRoute
+  '/agent/workers/$id': typeof AgentWorkersIdRoute
+  '/worker/jobs/$id': typeof WorkerJobsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/login'
-    | '/signup'
-    | '/guide/certifications'
-    | '/worker/preview'
+    | '/fees'
+    | '/agent/pipeline'
+    | '/agent/workers'
+    | '/signup/agent'
+    | '/signup/worker'
+    | '/worker/applications'
+    | '/worker/jobs'
     | '/worker/profile'
-    | '/worker/wellbeing'
+    | '/agent/'
     | '/worker/'
+    | '/agent/jobs/new'
+    | '/agent/workers/$id'
+    | '/worker/jobs/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/login'
-    | '/signup'
-    | '/guide/certifications'
-    | '/worker/preview'
+    | '/fees'
+    | '/agent/pipeline'
+    | '/agent/workers'
+    | '/signup/agent'
+    | '/signup/worker'
+    | '/worker/applications'
+    | '/worker/jobs'
     | '/worker/profile'
-    | '/worker/wellbeing'
+    | '/agent'
     | '/worker'
+    | '/agent/jobs/new'
+    | '/agent/workers/$id'
+    | '/worker/jobs/$id'
   id:
     | '__root__'
     | '/'
-    | '/login'
-    | '/signup'
-    | '/guide/certifications'
-    | '/worker/preview'
+    | '/fees'
+    | '/agent/pipeline'
+    | '/agent/workers'
+    | '/signup/agent'
+    | '/signup/worker'
+    | '/worker/applications'
+    | '/worker/jobs'
     | '/worker/profile'
-    | '/worker/wellbeing'
+    | '/agent/'
     | '/worker/'
+    | '/agent/jobs/new'
+    | '/agent/workers/$id'
+    | '/worker/jobs/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  LoginRoute: typeof LoginRoute
-  SignupRoute: typeof SignupRoute
-  GuideCertificationsRoute: typeof GuideCertificationsRoute
-  WorkerPreviewRoute: typeof WorkerPreviewRoute
+  FeesRoute: typeof FeesRoute
+  AgentPipelineRoute: typeof AgentPipelineRoute
+  AgentWorkersRoute: typeof AgentWorkersRouteWithChildren
+  SignupAgentRoute: typeof SignupAgentRoute
+  SignupWorkerRoute: typeof SignupWorkerRoute
+  WorkerApplicationsRoute: typeof WorkerApplicationsRoute
+  WorkerJobsRoute: typeof WorkerJobsRouteWithChildren
   WorkerProfileRoute: typeof WorkerProfileRoute
-  WorkerWellbeingRoute: typeof WorkerWellbeingRoute
+  AgentIndexRoute: typeof AgentIndexRoute
   WorkerIndexRoute: typeof WorkerIndexRoute
+  AgentJobsNewRoute: typeof AgentJobsNewRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/fees': {
+      id: '/fees'
+      path: '/fees'
+      fullPath: '/fees'
+      preLoaderRoute: typeof FeesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -164,11 +233,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkerIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/worker/wellbeing': {
-      id: '/worker/wellbeing'
-      path: '/worker/wellbeing'
-      fullPath: '/worker/wellbeing'
-      preLoaderRoute: typeof WorkerWellbeingRouteImport
+    '/agent/': {
+      id: '/agent/'
+      path: '/agent'
+      fullPath: '/agent/'
+      preLoaderRoute: typeof AgentIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/worker/profile': {
@@ -178,43 +247,110 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkerProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/worker/preview': {
-      id: '/worker/preview'
-      path: '/worker/preview'
-      fullPath: '/worker/preview'
-      preLoaderRoute: typeof WorkerPreviewRouteImport
+    '/worker/jobs': {
+      id: '/worker/jobs'
+      path: '/worker/jobs'
+      fullPath: '/worker/jobs'
+      preLoaderRoute: typeof WorkerJobsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/guide/certifications': {
-      id: '/guide/certifications'
-      path: '/guide/certifications'
-      fullPath: '/guide/certifications'
-      preLoaderRoute: typeof GuideCertificationsRouteImport
+    '/worker/applications': {
+      id: '/worker/applications'
+      path: '/worker/applications'
+      fullPath: '/worker/applications'
+      preLoaderRoute: typeof WorkerApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup/worker': {
+      id: '/signup/worker'
+      path: '/signup/worker'
+      fullPath: '/signup/worker'
+      preLoaderRoute: typeof SignupWorkerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup/agent': {
+      id: '/signup/agent'
+      path: '/signup/agent'
+      fullPath: '/signup/agent'
+      preLoaderRoute: typeof SignupAgentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agent/workers': {
+      id: '/agent/workers'
+      path: '/agent/workers'
+      fullPath: '/agent/workers'
+      preLoaderRoute: typeof AgentWorkersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agent/pipeline': {
+      id: '/agent/pipeline'
+      path: '/agent/pipeline'
+      fullPath: '/agent/pipeline'
+      preLoaderRoute: typeof AgentPipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/worker/jobs/$id': {
+      id: '/worker/jobs/$id'
+      path: '/$id'
+      fullPath: '/worker/jobs/$id'
+      preLoaderRoute: typeof WorkerJobsIdRouteImport
+      parentRoute: typeof WorkerJobsRoute
+    }
+    '/agent/workers/$id': {
+      id: '/agent/workers/$id'
+      path: '/$id'
+      fullPath: '/agent/workers/$id'
+      preLoaderRoute: typeof AgentWorkersIdRouteImport
+      parentRoute: typeof AgentWorkersRoute
+    }
+    '/agent/jobs/new': {
+      id: '/agent/jobs/new'
+      path: '/agent/jobs/new'
+      fullPath: '/agent/jobs/new'
+      preLoaderRoute: typeof AgentJobsNewRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
+interface AgentWorkersRouteChildren {
+  AgentWorkersIdRoute: typeof AgentWorkersIdRoute
+}
+
+const AgentWorkersRouteChildren: AgentWorkersRouteChildren = {
+  AgentWorkersIdRoute: AgentWorkersIdRoute,
+}
+
+const AgentWorkersRouteWithChildren = AgentWorkersRoute._addFileChildren(
+  AgentWorkersRouteChildren,
+)
+
+interface WorkerJobsRouteChildren {
+  WorkerJobsIdRoute: typeof WorkerJobsIdRoute
+}
+
+const WorkerJobsRouteChildren: WorkerJobsRouteChildren = {
+  WorkerJobsIdRoute: WorkerJobsIdRoute,
+}
+
+const WorkerJobsRouteWithChildren = WorkerJobsRoute._addFileChildren(
+  WorkerJobsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  LoginRoute: LoginRoute,
-  SignupRoute: SignupRoute,
-  GuideCertificationsRoute: GuideCertificationsRoute,
-  WorkerPreviewRoute: WorkerPreviewRoute,
+  FeesRoute: FeesRoute,
+  AgentPipelineRoute: AgentPipelineRoute,
+  AgentWorkersRoute: AgentWorkersRouteWithChildren,
+  SignupAgentRoute: SignupAgentRoute,
+  SignupWorkerRoute: SignupWorkerRoute,
+  WorkerApplicationsRoute: WorkerApplicationsRoute,
+  WorkerJobsRoute: WorkerJobsRouteWithChildren,
   WorkerProfileRoute: WorkerProfileRoute,
-  WorkerWellbeingRoute: WorkerWellbeingRoute,
+  AgentIndexRoute: AgentIndexRoute,
   WorkerIndexRoute: WorkerIndexRoute,
+  AgentJobsNewRoute: AgentJobsNewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
