@@ -1,26 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
+import { useLang } from "@/lib/lang";
 import { X, Check, Phone, ExternalLink } from "lucide-react";
 
 export const Route = createFileRoute("/fees")({
   head: () => ({
     meta: [
       { title: "Our Fee Promise — BridgeWork" },
-      { name: "description", content: "Workers pay $0. Always. Full transparency on all fees." },
+      { name: "description", content: "Workers pay $0. Always. Full transparency on all fees in our recruitment process." },
     ],
   }),
   component: Fees,
 });
 
 function Fees() {
+  const { t } = useLang();
   return (
     <AppShell role="public">
       <div className="mx-auto max-w-4xl px-4 py-12 md:px-6">
-        <h1 className="text-4xl font-bold">Our Fee Promise</h1>
-        <p className="mt-2 text-lg text-muted-foreground">Transparency you can verify.</p>
+        <h1 className="text-4xl font-bold font-tamil">{t("Our Fee Promise", "எங்கள் கட்டண உறுதிமொழி")}</h1>
+        <p className="mt-2 text-lg text-muted-foreground font-tamil">{t("Transparency you can verify.", "சரிபார்க்கக்கூடிய வெளிப்படைத்தன்மை.")}</p>
 
+        {/* Section 1 — Fee table */}
         <section className="mt-10">
-          <h2 className="text-xl font-bold">What workers pay</h2>
+          <h2 className="text-xl font-bold font-tamil">{t("What workers pay", "தொழிலாளர்கள் என்ன செலுத்துகிறார்கள்")}</h2>
           <div className="mt-4 overflow-hidden rounded-xl border border-border">
             <table className="w-full text-sm">
               <thead className="bg-secondary text-left">
@@ -29,7 +32,7 @@ function Fees() {
               <tbody className="divide-y divide-border bg-card">
                 {[
                   ["Platform fee", "BridgeWork", "$0"],
-                  ["Placement fee", "Business", "$0"],
+                  ["Placement fee", "Agent", "$0"],
                   ["Overseas broker fee", "None — no broker used", "$0"],
                   ["Work permit fee", "Singapore Government (paid by employer)", "~$35"],
                   ["Medical exam", "Paid by employer", "~$40"],
@@ -41,8 +44,9 @@ function Fees() {
           </div>
         </section>
 
+        {/* Section 2 — Comparison */}
         <section className="mt-12">
-          <h2 className="text-xl font-bold">Two paths to Singapore</h2>
+          <h2 className="text-xl font-bold font-tamil">{t("Two paths to Singapore", "சிங்கப்பூருக்கு இரண்டு வழிகள்")}</h2>
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             <div className="rounded-xl border-2 border-danger/30 bg-danger/5 p-6">
               <div className="flex items-center gap-2 text-danger"><X className="h-5 w-5" /><span className="text-sm font-bold uppercase tracking-wide">Traditional route</span></div>
@@ -65,15 +69,17 @@ function Fees() {
           </div>
         </section>
 
+        {/* Section 3 */}
         <section className="mt-12 rounded-xl border border-border bg-card p-6">
           <h2 className="text-xl font-bold">How we stay sustainable</h2>
           <p className="mt-3 text-muted-foreground">
-            Businesses pay BridgeWork a small subscription fee. Workers never pay anything.
+            Agents pay BridgeWork a small subscription fee. Workers never pay anything. This is how we stay sustainable without exploiting workers.
           </p>
         </section>
 
+        {/* Section 4 — MOM */}
         <section className="mt-12">
-          <h2 className="text-xl font-bold">Get help in Singapore</h2>
+          <h2 className="text-xl font-bold font-tamil">{t("Get help in Singapore", "சிங்கப்பூரில் உதவி பெறுங்கள்")}</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             <a href="tel:64385122" className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 hover:bg-secondary">
               <Phone className="h-5 w-5 text-primary" />
