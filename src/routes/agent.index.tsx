@@ -1,17 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell, SectorBadge } from "@/components/app-shell";
-import { APPLICATIONS, JOBS, WORKERS, AGENTS } from "@/lib/data";
-import { useState } from "react";
-import { Briefcase, Users, Sparkles, MailCheck, Plus, Search, X, AlertCircle } from "lucide-react";
+import { APPLICATIONS, JOBS, BUSINESSES } from "@/lib/data";
+import { Briefcase, Users, Sparkles, MailCheck, Plus, Search } from "lucide-react";
 
 export const Route = createFileRoute("/agent/")({
-  head: () => ({ meta: [{ title: "Agent Dashboard — BridgeWork" }] }),
-  component: AgentDash,
+  head: () => ({ meta: [{ title: "Business Dashboard — BridgeWork" }] }),
+  component: BusinessDash,
 });
 
-function AgentDash() {
-  const [banner, setBanner] = useState(true);
-  const agent = AGENTS[0];
+function BusinessDash() {
+  const business = BUSINESSES[0];
   const activeJobs = JOBS.filter(j => j.status === "Active").length;
   const totalApplicants = APPLICATIONS.length;
   const newMatches = 12;
@@ -21,29 +19,16 @@ function AgentDash() {
     { text: "Murugan R. applied to your Marine Welder posting", time: "2h ago" },
     { text: "3 new workers match your Construction Formwork posting", time: "5h ago" },
     { text: "Selvam K. moved to Offer Sent stage", time: "1d ago" },
-    { text: "Karthik M. completed document verification", time: "2d ago" },
+    { text: "Karthik M. accepted your offer", time: "2d ago" },
   ];
 
   return (
-    <AppShell role="agent">
+    <AppShell role="business">
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
-        {banner && (
-          <div className="mb-6 flex items-start justify-between gap-4 rounded-lg border border-warning/30 bg-warning/10 p-4">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="mt-0.5 h-5 w-5 text-warning-foreground" />
-              <div>
-                <p className="font-semibold text-warning-foreground">Pending Verification</p>
-                <p className="text-sm text-warning-foreground/80">We're verifying your EA license. You'll have full access soon. (Mock — click X to dismiss)</p>
-              </div>
-            </div>
-            <button onClick={() => setBanner(false)} className="rounded p-1 hover:bg-warning/20"><X className="h-4 w-4" /></button>
-          </div>
-        )}
-
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold">Welcome, {agent.contact}</h1>
-            <p className="mt-1 text-muted-foreground">{agent.company} · {agent.license}</p>
+            <h1 className="text-3xl font-bold">Welcome, {business.contact}</h1>
+            <p className="mt-1 text-muted-foreground">{business.company} · {business.license}</p>
           </div>
           <div className="flex gap-2">
             <Link to="/agent/jobs/new" className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90">
@@ -56,25 +41,25 @@ function AgentDash() {
         </div>
 
         <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Stat icon={Briefcase} label="Active Postings" value={activeJobs} accent="primary" />
-          <Stat icon={Users} label="Total Applicants" value={totalApplicants} accent="accent" />
-          <Stat icon={Sparkles} label="New Matches" value={newMatches} accent="success" />
-          <Stat icon={MailCheck} label="Offers Pending" value={offersPending} accent="warning" />
+          <Stat icon={Briefcase} label="Active Postings" value={activeJobs} />
+          <Stat icon={Users} label="Total Applicants" value={totalApplicants} />
+          <Stat icon={Sparkles} label="New Matches" value={newMatches} />
+          <Stat icon={MailCheck} label="Offers Pending" value={offersPending} />
         </div>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <h2 className="mb-3 text-lg font-semibold">Active job postings</h2>
             <div className="space-y-3">
-              {JOBS.filter(j => j.agentId === agent.id || true).slice(0, 4).map(j => {
-                const ag = AGENTS.find(a => a.id === j.agentId);
+              {JOBS.slice(0, 4).map(j => {
+                const b = BUSINESSES.find(a => a.id === j.businessId);
                 const apps = APPLICATIONS.filter(a => a.jobId === j.id).length;
                 return (
                   <div key={j.id} className="rounded-lg border border-border bg-card p-4">
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <h3 className="font-semibold">{j.title}</h3>
-                        <p className="text-xs text-muted-foreground">{ag?.company}</p>
+                        <p className="text-xs text-muted-foreground">{b?.company}</p>
                       </div>
                       <SectorBadge sector={j.sector} />
                     </div>
@@ -106,10 +91,10 @@ function AgentDash() {
   );
 }
 
-function Stat({ icon: Icon, label, value, accent }: { icon: any; label: string; value: number; accent: string }) {
+function Stat({ icon: Icon, label, value }: { icon: any; label: string; value: number }) {
   return (
     <div className="rounded-xl border border-border bg-card p-5">
-      <div className={`inline-flex h-9 w-9 items-center justify-center rounded-md bg-${accent}/10 text-${accent}`}>
+      <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary/10 text-primary">
         <Icon className="h-4 w-4" />
       </div>
       <p className="mt-3 text-3xl font-bold">{value}</p>

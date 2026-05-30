@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
 import { useState } from "react";
-import { DISTRICTS, type District, type Sector } from "@/lib/data";
+import { type Sector } from "@/lib/data";
 import { Lock } from "lucide-react";
 
 export const Route = createFileRoute("/agent/jobs/new")({
@@ -14,19 +14,14 @@ function NewJob() {
   const [f, setF] = useState({
     title: "", sector: "Construction" as Sector, workersNeeded: 1,
     salaryMin: 1600, salaryMax: 2000, duration: 24, accommodation: true,
-    minYears: "1+", skills: "", districts: ["Chennai"] as District[],
-    startDate: "", status: "Active",
+    minYears: "1+", skills: "", startDate: "", status: "Active",
   });
 
-  const toggleDistrict = (d: District) => {
-    setF(f => ({ ...f, districts: f.districts.includes(d) ? f.districts.filter(x => x !== d) : [...f.districts, d] }));
-  };
-
   return (
-    <AppShell role="agent">
+    <AppShell role="business">
       <div className="mx-auto max-w-3xl px-4 py-8 md:px-6">
         <h1 className="text-3xl font-bold">Post a new job</h1>
-        <p className="mt-1 text-muted-foreground">Reach licensed workers directly from Tamil Nadu.</p>
+        <p className="mt-1 text-muted-foreground">Reach workers directly. No middlemen.</p>
 
         <form
           onSubmit={(e) => { e.preventDefault(); nav({ to: "/agent" }); }}
@@ -76,17 +71,6 @@ function NewJob() {
             <textarea value={f.skills} onChange={e => setF({ ...f, skills: e.target.value })} rows={3} className={inp} placeholder="Specific skills, certifications, equipment..." />
           </Field>
 
-          <Field label="Preferred districts in Tamil Nadu">
-            <div className="flex flex-wrap gap-2">
-              {DISTRICTS.map(d => (
-                <button type="button" key={d} onClick={() => toggleDistrict(d)}
-                  className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${f.districts.includes(d) ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:bg-secondary"}`}>
-                  {d}
-                </button>
-              ))}
-            </div>
-          </Field>
-
           <div className="grid gap-5 md:grid-cols-2">
             <Field label="Start date">
               <input type="date" value={f.startDate} onChange={e => setF({ ...f, startDate: e.target.value })} className={inp} />
@@ -98,12 +82,11 @@ function NewJob() {
             </Field>
           </div>
 
-          {/* Locked fee field */}
           <div className="flex items-start gap-3 rounded-md border border-dashed border-border bg-secondary/40 p-4">
             <Lock className="mt-0.5 h-4 w-4 text-muted-foreground" />
             <div>
               <p className="text-sm font-semibold text-muted-foreground">Worker placement fee: $0</p>
-              <p className="mt-0.5 text-xs text-muted-foreground">BridgeWork policy. Workers are never charged. This field cannot be edited.</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">BridgeWork policy. Workers are never charged.</p>
             </div>
           </div>
 

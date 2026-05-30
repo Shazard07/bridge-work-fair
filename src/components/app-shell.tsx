@@ -1,35 +1,33 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import { Bell, Menu, X } from "lucide-react";
 import { useState } from "react";
-import { LangToggle, useLang } from "@/lib/lang";
-import { NOTIFICATIONS_AGENT, NOTIFICATIONS_WORKER } from "@/lib/data";
+import { NOTIFICATIONS_BUSINESS, NOTIFICATIONS_WORKER } from "@/lib/data";
 
-type Role = "agent" | "worker" | "public";
+type Role = "business" | "worker" | "public";
 
-const NAV: Record<Role, { to: string; en: string; ta: string }[]> = {
-  agent: [
-    { to: "/agent", en: "Dashboard", ta: "Dashboard" },
-    { to: "/agent/jobs/new", en: "Post Job", ta: "Post Job" },
-    { to: "/agent/workers", en: "Browse Workers", ta: "Browse Workers" },
-    { to: "/agent/pipeline", en: "Pipeline", ta: "Pipeline" },
-    { to: "/fees", en: "Fee Promise", ta: "Fee Promise" },
+const NAV: Record<Role, { to: string; label: string }[]> = {
+  business: [
+    { to: "/agent", label: "Dashboard" },
+    { to: "/agent/jobs/new", label: "Post Job" },
+    { to: "/agent/workers", label: "Browse Workers" },
+    { to: "/agent/pipeline", label: "Pipeline" },
+    { to: "/fees", label: "Fee Promise" },
   ],
   worker: [
-    { to: "/worker", en: "Dashboard", ta: "முகப்பு" },
-    { to: "/worker/jobs", en: "Browse Jobs", ta: "வேலைகள்" },
-    { to: "/worker/applications", en: "My Applications", ta: "எனது விண்ணப்பங்கள்" },
-    { to: "/worker/profile", en: "Profile", ta: "சுயவிவரம்" },
-    { to: "/fees", en: "Fee Promise", ta: "கட்டண உறுதிமொழி" },
+    { to: "/worker", label: "Dashboard" },
+    { to: "/worker/jobs", label: "Browse Jobs" },
+    { to: "/worker/applications", label: "My Applications" },
+    { to: "/worker/profile", label: "Profile" },
+    { to: "/fees", label: "Fee Promise" },
   ],
   public: [],
 };
 
 export function AppShell({ role, children }: { role: Role; children: React.ReactNode }) {
-  const { t } = useLang();
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const [bellOpen, setBellOpen] = useState(false);
-  const notes = role === "agent" ? NOTIFICATIONS_AGENT : NOTIFICATIONS_WORKER;
+  const notes = role === "business" ? NOTIFICATIONS_BUSINESS : NOTIFICATIONS_WORKER;
   const unread = notes.filter(n => n.unread).length;
 
   return (
@@ -50,14 +48,18 @@ export function AppShell({ role, children }: { role: Role; children: React.React
                   className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
                   activeProps={{ className: "rounded-md px-3 py-2 text-sm font-semibold bg-secondary text-foreground" }}
                 >
-                  <span className={role === "worker" ? "font-tamil" : ""}>{role === "worker" ? t(item.en, item.ta) : item.en}</span>
+                  {item.label}
                 </Link>
               ))}
             </nav>
           )}
 
           <div className="flex items-center gap-2">
-            {role === "worker" && <LangToggle />}
+            {role === "public" && (
+              <Link to="/login" className="rounded-md px-3 py-1.5 text-sm font-semibold text-foreground hover:bg-secondary">
+                Log in
+              </Link>
+            )}
             {role !== "public" && (
               <div className="relative">
                 <button onClick={() => setBellOpen(v => !v)} className="relative rounded-full p-2 hover:bg-secondary">
@@ -96,7 +98,7 @@ export function AppShell({ role, children }: { role: Role; children: React.React
             <nav className="flex flex-col p-2">
               {NAV[role].map(item => (
                 <Link key={item.to} to={item.to} onClick={() => setOpen(false)} className="rounded-md px-3 py-2.5 text-sm font-medium hover:bg-secondary">
-                  <span className={role === "worker" ? "font-tamil" : ""}>{role === "worker" ? t(item.en, item.ta) : item.en}</span>
+                  {item.label}
                 </Link>
               ))}
             </nav>
