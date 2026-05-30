@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell, SectorBadge } from "@/components/app-shell";
 import { APPLICATIONS, JOBS, PIPELINE_STAGES, WORKERS, type Stage } from "@/lib/data";
 import { useState } from "react";
+import { MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/agent/pipeline")({
   head: () => ({ meta: [{ title: "Pipeline — BridgeWork" }] }),
@@ -12,12 +13,11 @@ function Pipeline() {
   const [apps, setApps] = useState(APPLICATIONS);
   const [dragId, setDragId] = useState<string | null>(null);
 
-  const move = (id: string, stage: Stage) => {
+  const move = (id: string, stage: Stage) =>
     setApps(p => p.map(a => a.id === id ? { ...a, stage, daysInStage: 0 } : a));
-  };
 
   return (
-    <AppShell role="agent">
+    <AppShell role="business">
       <div className="mx-auto max-w-[100rem] px-4 py-8 md:px-6">
         <h1 className="text-3xl font-bold">Application pipeline</h1>
         <p className="mt-1 text-muted-foreground">Drag workers between stages.</p>
@@ -40,6 +40,7 @@ function Pipeline() {
                   {stageApps.map(a => {
                     const w = WORKERS.find(x => x.id === a.workerId)!;
                     const j = JOBS.find(x => x.id === a.jobId)!;
+                    const wa = `https://wa.me/${w.phone.replace(/\D/g, "")}`;
                     return (
                       <div
                         key={a.id}
@@ -50,14 +51,22 @@ function Pipeline() {
                       >
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
-                            <p className="truncate text-sm font-semibold">{w.firstName} {w.lastInitial}.</p>
+                            <p className="truncate text-sm font-semibold">{w.name}</p>
                             <p className="truncate text-xs text-muted-foreground">{j.title}</p>
                           </div>
                           <SectorBadge sector={w.sector} />
                         </div>
-                        <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                          <span>{w.district}</span>
-                          <span>{a.daysInStage}d in stage</span>
+                        <div className="mt-2 flex items-center justify-between text-xs">
+                          <span className="text-muted-foreground">{a.daysInStage}d in stage</span>
+                          <a
+                            href={wa}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={e => e.stopPropagation()}
+                            className="inline-flex items-center gap-1 rounded bg-[#25D366]/10 px-2 py-0.5 text-[#1faa54] hover:bg-[#25D366]/20"
+                          >
+                            <MessageCircle className="h-3 w-3" /> WhatsApp
+                          </a>
                         </div>
                       </div>
                     );
