@@ -55,7 +55,7 @@ function WorkerDashboard() {
         supabase.from("worker_contacts").select("*").eq("worker_id", user.id).order("created_at", { ascending: false }),
         supabase.from("company_profiles").select("user_id, company_name"),
       ]);
-      setProfile(w as WorkerProfile | null);
+      setProfile(((w as unknown) as WorkerProfile | null));
       setContacts((ct as Contact[]) ?? []);
       const map: Record<string, string> = {};
       (cp ?? []).forEach((r: { user_id: string; company_name: string }) => { map[r.user_id] = r.company_name; });

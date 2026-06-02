@@ -63,7 +63,7 @@ function CompanyDashboard() {
         supabase.from("saved_workers").select("worker_id").eq("company_id", user.id),
         supabase.from("worker_contacts").select("worker_id").eq("company_id", user.id),
       ]);
-      setWorkers((w as Worker[]) ?? []);
+      setWorkers(((w as unknown) as Worker[]) ?? []);
       const pMap: Record<string, WorkerProfileMeta> = {};
       (p ?? []).forEach((r: WorkerProfileMeta) => { pMap[r.user_id] = r; });
       setProfiles(pMap);
