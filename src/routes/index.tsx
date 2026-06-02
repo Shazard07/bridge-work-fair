@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
-import { UserPlus, Building2, Handshake, ShieldCheck, CheckCircle, Eye, Users } from "lucide-react";
+import { UserPlus, Building2, Search, ShieldCheck, CheckCircle, Eye, Users } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "getWorkers — Transparent hiring in Singapore. Verified workers. Trusted companies." },
-      { name: "description", content: "Transparent hiring connecting verified migrant workers with trusted Singapore companies. No hidden fees." },
+      { title: "getWorkers — Discover verified workers in Singapore" },
+      { name: "description", content: "A verified worker discovery platform. Singapore companies search, filter, and contact construction & marine workers directly. Free during MVP." },
     ],
   }),
   component: Landing,
@@ -22,13 +22,13 @@ function Landing() {
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground">
               <ShieldCheck className="h-3.5 w-3.5 text-success" />
-              $0 placement fee · Always
+              Free during MVP · For workers and companies
             </div>
             <h1 className="text-balance text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-              Transparent hiring. <span className="text-accent">Verified workers.</span> Trusted companies.
+              Discover <span className="text-accent">verified workers</span> in Singapore.
             </h1>
             <p className="mt-4 text-lg text-muted-foreground md:text-xl">
-              getWorkers connects verified workers with trusted Singapore companies — transparent, reliable, and efficient.
+              Workers create professional profiles. Companies search, filter, and contact them directly. No middlemen, no job listings, no application backlog.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link to="/signup/worker" className="inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 text-base font-semibold text-accent-foreground hover:opacity-90 sm:w-auto">
@@ -49,10 +49,10 @@ function Landing() {
       <section className="border-b border-border bg-secondary/30">
         <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 px-4 py-10 md:grid-cols-4 md:px-6">
           {[
-            { v: "$0", l: "Placement fee" },
-            { v: "4", l: "Nationalities supported" },
+            { v: "$0", l: "Free during MVP" },
+            { v: "Direct", l: "Worker contact" },
             { v: "2", l: "Sectors (Construction & Marine)" },
-            { v: "100%", l: "Direct connections" },
+            { v: "0", l: "Job listings to wade through" },
           ].map(s => (
             <div key={s.l} className="text-center">
               <div className="text-3xl font-extrabold text-foreground md:text-4xl">{s.v}</div>
@@ -65,12 +65,12 @@ function Landing() {
       {/* How it works */}
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-6">
         <h2 className="text-center text-3xl font-bold tracking-tight">How it works</h2>
-        <p className="mt-2 text-center text-muted-foreground">Simple. Transparent. Direct.</p>
+        <p className="mt-2 text-center text-muted-foreground">A discovery platform — not a job board.</p>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {[
-            { icon: UserPlus, title: "Sign up free", body: "Workers and companies create verified profiles in minutes." },
-            { icon: Handshake, title: "Match directly", body: "Workers apply, companies review. Connect transparently with full visibility." },
-            { icon: Building2, title: "Hire with confidence", body: "Clear terms. Fair wages. No hidden costs. Both sides know exactly what to expect." },
+            { icon: UserPlus, title: "Workers build profiles", body: "Skills, certifications, Singapore and overseas experience, availability — all verified." },
+            { icon: Search, title: "Companies search & filter", body: "Search by trade, experience, nationality, certifications, and availability." },
+            { icon: Building2, title: "Contact workers directly", body: "Reveal contact details and reach out. No applications, no waiting." },
           ].map((s, i) => (
             <div key={i} className="relative rounded-xl border border-border bg-card p-6">
               <div className="absolute -top-3 left-6 inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">{i + 1}</div>
