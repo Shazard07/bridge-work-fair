@@ -72,7 +72,7 @@ function WorkerSignup() {
         <form onSubmit={onSubmit} className="mt-8 space-y-4 rounded-xl border border-border bg-card p-6">
           <Field label="Full name" value={form.name} onChange={upd("name")} required />
           <Field label="Email" type="email" value={form.email} onChange={upd("email")} required />
-          <Field label="Password" type="password" value={form.password} onChange={upd("password")} required minLength={6} />
+          <PasswordField value={form.password} onChange={upd("password")} />
           <Field label="Mobile number" value={form.mobile} onChange={upd("mobile")} placeholder="+65 / +91 ..." required />
 
           <Select label="Nationality" value={form.nationality} onChange={upd("nationality")} options={NATIONALITIES} />
