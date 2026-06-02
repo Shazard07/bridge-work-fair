@@ -18,6 +18,7 @@ type Job = {
   workers_needed: number;
   min_salary: number;
   max_salary: number;
+  salary_period: "day" | "month";
   location: string;
   contract_duration: string;
   start_date: string;
