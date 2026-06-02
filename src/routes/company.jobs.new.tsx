@@ -70,10 +70,13 @@ function PostJob() {
           <Select label="Sector" value={form.sector} onChange={upd("sector")} options={SECTORS} />
           <Field label="Number of workers needed" type="number" min={1} value={form.workersNeeded} onChange={upd("workersNeeded")} />
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Min salary (SGD)" type="number" min={0} value={form.minSalary} onChange={upd("minSalary")} />
-            <Field label="Max salary (SGD)" type="number" min={0} value={form.maxSalary} onChange={upd("maxSalary")} />
+            <Field label="Min salary (SGD/month)" type="number" min={0} value={form.minSalary} onChange={upd("minSalary")} />
+            <Field label="Max salary (SGD/month)" type="number" min={0} value={form.maxSalary} onChange={upd("maxSalary")} />
           </div>
-          <Select label="Salary period" value={form.salaryPeriod} onChange={upd("salaryPeriod")} options={SALARY_PERIODS} />
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Min salary (SGD/day)" type="number" min={0} value={form.minSalaryDay} onChange={upd("minSalaryDay")} />
+            <Field label="Max salary (SGD/day)" type="number" min={0} value={form.maxSalaryDay} onChange={upd("maxSalaryDay")} />
+          </div>
           <Field label="Work location" value={form.location} onChange={upd("location")} />
           <Field label="Contract duration" value={form.contractDuration} onChange={upd("contractDuration")} placeholder="e.g. 2 years" />
           <Field label="Expected start date" type="date" value={form.startDate} onChange={upd("startDate")} />
