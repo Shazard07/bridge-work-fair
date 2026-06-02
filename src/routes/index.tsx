@@ -25,10 +25,10 @@ function Landing() {
               $0 placement fee · Always
             </div>
             <h1 className="text-balance text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-              Direct hiring in Singapore. <span className="text-accent">Zero agent fees.</span>
+              Transparent hiring. <span className="text-accent">Verified workers.</span> Trusted companies.
             </h1>
             <p className="mt-4 text-lg text-muted-foreground md:text-xl">
-              getWorkers connects migrant workers and Singapore businesses directly — no brokers, no debt, no hidden costs.
+              getWorkers connects verified workers with trusted Singapore companies — transparent, reliable, and efficient.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link to="/signup/worker" className="inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 text-base font-semibold text-accent-foreground hover:opacity-90 sm:w-auto">
