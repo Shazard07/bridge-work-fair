@@ -71,7 +71,7 @@ function CompanySignup() {
           <Field label="Contact person name" value={form.contactName} onChange={upd("contactName")} required />
           <Field label="Contact person number" value={form.contactPhone} onChange={upd("contactPhone")} required />
           <Field label="Email" type="email" value={form.email} onChange={upd("email")} required />
-          <Field label="Password" type="password" value={form.password} onChange={upd("password")} required minLength={6} />
+          <Field label="Password" type="password" value={form.password} onChange={upd("password")} required />
           <Select label="Work pass types accepted" value={form.workPass} onChange={upd("workPass")} options={WORK_PASS} />
 
           {err && <p className="text-sm text-destructive">{err}</p>}

@@ -135,8 +135,7 @@ function PasswordField({ value, onChange }: { value: string; onChange: React.Cha
           value={value}
           onChange={onChange}
           required
-          minLength={8}
-          placeholder="At least 8 characters"
+          placeholder="Choose a password"
           className="w-full rounded-md border border-input bg-background px-3 py-2 pr-16 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
         <button
@@ -147,7 +146,6 @@ function PasswordField({ value, onChange }: { value: string; onChange: React.Cha
           {show ? "Hide" : "Show"}
         </button>
       </div>
-      <span className="mt-1 block text-xs text-muted-foreground">Use 8+ characters. Avoid common passwords.</span>
     </label>
   );
 }
