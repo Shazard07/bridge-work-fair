@@ -18,7 +18,6 @@ function PostJob() {
   const [form, setForm] = useState({
     title: "",
     sector: "Construction" as typeof SECTORS[number],
-    workPass: "Work Permit" as typeof WORK_PASS[number],
     workersNeeded: "1",
     minSalary: "",
     maxSalary: "",

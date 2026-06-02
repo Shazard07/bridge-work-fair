@@ -88,54 +88,60 @@ export type Database = {
       jobs: {
         Row: {
           company_id: string
-          contract_duration: string
+          contract_duration: string | null
           created_at: string
-          description: string
+          description: string | null
           id: string
-          location: string
-          max_salary: number
-          min_salary: number
-          sector: Database["public"]["Enums"]["sector"]
-          start_date: string
-          title: string
+          location: string | null
+          max_salary: number | null
+          min_salary: number | null
+          sector: Database["public"]["Enums"]["sector"] | null
+          start_date: string | null
+          title: string | null
           updated_at: string
-          work_hours: string
-          work_pass_type: Database["public"]["Enums"]["work_pass_accepted"]
-          workers_needed: number
+          work_hours: string | null
+          work_pass_type:
+            | Database["public"]["Enums"]["work_pass_accepted"]
+            | null
+          workers_needed: number | null
         }
         Insert: {
           company_id: string
-          contract_duration: string
+          contract_duration?: string | null
           created_at?: string
-          description: string
+          description?: string | null
           id?: string
-          location: string
-          max_salary: number
-          min_salary: number
-          sector: Database["public"]["Enums"]["sector"]
-          start_date: string
-          title: string
+          location?: string | null
+          max_salary?: number | null
+          min_salary?: number | null
+          sector?: Database["public"]["Enums"]["sector"] | null
+          start_date?: string | null
+          title?: string | null
           updated_at?: string
-          work_hours: string
-          work_pass_type: Database["public"]["Enums"]["work_pass_accepted"]
-          workers_needed?: number
+          work_hours?: string | null
+          work_pass_type?:
+            | Database["public"]["Enums"]["work_pass_accepted"]
+            | null
+          workers_needed?: number | null
         }
         Update: {
           company_id?: string
-          contract_duration?: string
+          contract_duration?: string | null
           created_at?: string
-          description?: string
+          description?: string | null
           id?: string
-          location?: string
-          max_salary?: number
-          min_salary?: number
-          sector?: Database["public"]["Enums"]["sector"]
-          start_date?: string
-          title?: string
+          location?: string | null
+          max_salary?: number | null
+          min_salary?: number | null
+          sector?: Database["public"]["Enums"]["sector"] | null
+          start_date?: string | null
+          title?: string | null
           updated_at?: string
-          work_hours?: string
-          work_pass_type?: Database["public"]["Enums"]["work_pass_accepted"]
-          workers_needed?: number
+          work_hours?: string | null
+          work_pass_type?:
+            | Database["public"]["Enums"]["work_pass_accepted"]
+            | null
+          workers_needed?: number | null
         }
         Relationships: []
       }
