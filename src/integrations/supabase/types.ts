@@ -95,6 +95,7 @@ export type Database = {
           location: string | null
           max_salary: number | null
           min_salary: number | null
+          salary_period: Database["public"]["Enums"]["salary_period"]
           sector: Database["public"]["Enums"]["sector"] | null
           start_date: string | null
           title: string | null
@@ -114,6 +115,7 @@ export type Database = {
           location?: string | null
           max_salary?: number | null
           min_salary?: number | null
+          salary_period?: Database["public"]["Enums"]["salary_period"]
           sector?: Database["public"]["Enums"]["sector"] | null
           start_date?: string | null
           title?: string | null
@@ -133,6 +135,7 @@ export type Database = {
           location?: string | null
           max_salary?: number | null
           min_salary?: number | null
+          salary_period?: Database["public"]["Enums"]["salary_period"]
           sector?: Database["public"]["Enums"]["sector"] | null
           start_date?: string | null
           title?: string | null
@@ -222,6 +225,7 @@ export type Database = {
       application_status: "Pending" | "Viewed" | "Contacted" | "Rejected"
       language: "Tamil" | "Hindi" | "Bengali" | "Thai" | "Mandarin"
       nationality: "India" | "Bangladesh" | "Thailand" | "China"
+      salary_period: "day" | "month"
       sector: "Construction" | "Marine"
       user_role: "worker" | "company"
       work_pass_accepted: "Work Permit" | "S Pass" | "Both"
@@ -356,6 +360,7 @@ export const Constants = {
       application_status: ["Pending", "Viewed", "Contacted", "Rejected"],
       language: ["Tamil", "Hindi", "Bengali", "Thai", "Mandarin"],
       nationality: ["India", "Bangladesh", "Thailand", "China"],
+      salary_period: ["day", "month"],
       sector: ["Construction", "Marine"],
       user_role: ["worker", "company"],
       work_pass_accepted: ["Work Permit", "S Pass", "Both"],
