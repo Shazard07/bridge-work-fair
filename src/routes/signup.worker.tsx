@@ -123,3 +123,31 @@ function Select({ label, value, onChange, options }: { label: string; value: str
     </label>
   );
 }
+
+function PasswordField({ value, onChange }: { value: string; onChange: React.ChangeEventHandler<HTMLInputElement> }) {
+  const [show, setShow] = useState(false);
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-sm font-medium">Password</span>
+      <div className="relative">
+        <input
+          type={show ? "text" : "password"}
+          value={value}
+          onChange={onChange}
+          required
+          minLength={8}
+          placeholder="At least 8 characters"
+          className="w-full rounded-md border border-input bg-background px-3 py-2 pr-16 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+        />
+        <button
+          type="button"
+          onClick={() => setShow(s => !s)}
+          className="absolute right-2 top-1/2 -translate-y-1/2 rounded px-2 py-1 text-xs font-medium text-muted-foreground hover:text-foreground"
+        >
+          {show ? "Hide" : "Show"}
+        </button>
+      </div>
+      <span className="mt-1 block text-xs text-muted-foreground">Use 8+ characters. Avoid common passwords.</span>
+    </label>
+  );
+}
