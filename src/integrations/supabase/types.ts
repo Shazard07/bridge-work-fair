@@ -14,33 +14,128 @@ export type Database = {
   }
   public: {
     Tables: {
-      agent_profiles: {
+      applications: {
+        Row: {
+          created_at: string
+          id: string
+          job_id: string
+          status: Database["public"]["Enums"]["application_status"]
+          updated_at: string
+          worker_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          job_id: string
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          worker_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          job_id?: string
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          worker_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "applications_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      company_profiles: {
         Row: {
           company_name: string
           contact_name: string
+          contact_phone: string
           created_at: string
-          ea_license_number: string
+          sector: Database["public"]["Enums"]["sector"]
+          uen: string
           updated_at: string
           user_id: string
-          verified: boolean
+          work_pass_accepted: Database["public"]["Enums"]["work_pass_accepted"]
         }
         Insert: {
           company_name: string
           contact_name: string
+          contact_phone: string
           created_at?: string
-          ea_license_number: string
+          sector: Database["public"]["Enums"]["sector"]
+          uen: string
           updated_at?: string
           user_id: string
-          verified?: boolean
+          work_pass_accepted: Database["public"]["Enums"]["work_pass_accepted"]
         }
         Update: {
           company_name?: string
           contact_name?: string
+          contact_phone?: string
           created_at?: string
-          ea_license_number?: string
+          sector?: Database["public"]["Enums"]["sector"]
+          uen?: string
           updated_at?: string
           user_id?: string
-          verified?: boolean
+          work_pass_accepted?: Database["public"]["Enums"]["work_pass_accepted"]
+        }
+        Relationships: []
+      }
+      jobs: {
+        Row: {
+          company_id: string
+          contract_duration: string
+          created_at: string
+          description: string
+          id: string
+          location: string
+          max_salary: number
+          min_salary: number
+          sector: Database["public"]["Enums"]["sector"]
+          start_date: string
+          title: string
+          updated_at: string
+          work_hours: string
+          work_pass_type: Database["public"]["Enums"]["work_pass_accepted"]
+          workers_needed: number
+        }
+        Insert: {
+          company_id: string
+          contract_duration: string
+          created_at?: string
+          description: string
+          id?: string
+          location: string
+          max_salary: number
+          min_salary: number
+          sector: Database["public"]["Enums"]["sector"]
+          start_date: string
+          title: string
+          updated_at?: string
+          work_hours: string
+          work_pass_type: Database["public"]["Enums"]["work_pass_accepted"]
+          workers_needed?: number
+        }
+        Update: {
+          company_id?: string
+          contract_duration?: string
+          created_at?: string
+          description?: string
+          id?: string
+          location?: string
+          max_salary?: number
+          min_salary?: number
+          sector?: Database["public"]["Enums"]["sector"]
+          start_date?: string
+          title?: string
+          updated_at?: string
+          work_hours?: string
+          work_pass_type?: Database["public"]["Enums"]["work_pass_accepted"]
+          workers_needed?: number
         }
         Relationships: []
       }
@@ -74,21 +169,39 @@ export type Database = {
       worker_profiles: {
         Row: {
           created_at: string
-          district: string
+          date_of_birth: string
+          language: Database["public"]["Enums"]["language"]
+          nationality: Database["public"]["Enums"]["nationality"]
+          sector: Database["public"]["Enums"]["sector"]
+          skills: string
           updated_at: string
           user_id: string
+          work_pass_end_date: string | null
+          years_experience: number
         }
         Insert: {
           created_at?: string
-          district: string
+          date_of_birth: string
+          language: Database["public"]["Enums"]["language"]
+          nationality: Database["public"]["Enums"]["nationality"]
+          sector: Database["public"]["Enums"]["sector"]
+          skills?: string
           updated_at?: string
           user_id: string
+          work_pass_end_date?: string | null
+          years_experience?: number
         }
         Update: {
           created_at?: string
-          district?: string
+          date_of_birth?: string
+          language?: Database["public"]["Enums"]["language"]
+          nationality?: Database["public"]["Enums"]["nationality"]
+          sector?: Database["public"]["Enums"]["sector"]
+          skills?: string
           updated_at?: string
           user_id?: string
+          work_pass_end_date?: string | null
+          years_experience?: number
         }
         Relationships: []
       }
@@ -100,7 +213,13 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      user_role: "agent" | "worker"
+      application_status: "Pending" | "Viewed" | "Contacted" | "Rejected"
+      language: "Tamil" | "Hindi" | "Bengali" | "Thai" | "Mandarin"
+      nationality: "India" | "Bangladesh" | "Thailand" | "China"
+      sector: "Construction" | "Marine"
+      user_role: "worker" | "company"
+      work_pass_accepted: "Work Permit" | "S Pass" | "Both"
+      work_pass_type: "Work Permit" | "S Pass"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -228,7 +347,13 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      user_role: ["agent", "worker"],
+      application_status: ["Pending", "Viewed", "Contacted", "Rejected"],
+      language: ["Tamil", "Hindi", "Bengali", "Thai", "Mandarin"],
+      nationality: ["India", "Bangladesh", "Thailand", "China"],
+      sector: ["Construction", "Marine"],
+      user_role: ["worker", "company"],
+      work_pass_accepted: ["Work Permit", "S Pass", "Both"],
+      work_pass_type: ["Work Permit", "S Pass"],
     },
   },
 } as const

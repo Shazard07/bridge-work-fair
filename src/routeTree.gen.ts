@@ -10,29 +10,16 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as FeesRouteImport } from './routes/fees'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkerIndexRouteImport } from './routes/worker.index'
-import { Route as AgentIndexRouteImport } from './routes/agent.index'
-import { Route as WorkerProfileRouteImport } from './routes/worker.profile'
-import { Route as WorkerJobsRouteImport } from './routes/worker.jobs'
-import { Route as WorkerApplicationsRouteImport } from './routes/worker.applications'
+import { Route as CompanyIndexRouteImport } from './routes/company.index'
 import { Route as SignupWorkerRouteImport } from './routes/signup.worker'
-import { Route as SignupAgentRouteImport } from './routes/signup.agent'
-import { Route as AgentWorkersRouteImport } from './routes/agent.workers'
-import { Route as AgentPipelineRouteImport } from './routes/agent.pipeline'
-import { Route as WorkerJobsIdRouteImport } from './routes/worker.jobs.$id'
-import { Route as AgentWorkersIdRouteImport } from './routes/agent.workers.$id'
-import { Route as AgentJobsNewRouteImport } from './routes/agent.jobs.new'
+import { Route as SignupCompanyRouteImport } from './routes/signup.company'
+import { Route as CompanyJobsNewRouteImport } from './routes/company.jobs.new'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FeesRoute = FeesRouteImport.update({
-  id: '/fees',
-  path: '/fees',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -45,24 +32,9 @@ const WorkerIndexRoute = WorkerIndexRouteImport.update({
   path: '/worker/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AgentIndexRoute = AgentIndexRouteImport.update({
-  id: '/agent/',
-  path: '/agent/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WorkerProfileRoute = WorkerProfileRouteImport.update({
-  id: '/worker/profile',
-  path: '/worker/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WorkerJobsRoute = WorkerJobsRouteImport.update({
-  id: '/worker/jobs',
-  path: '/worker/jobs',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WorkerApplicationsRoute = WorkerApplicationsRouteImport.update({
-  id: '/worker/applications',
-  path: '/worker/applications',
+const CompanyIndexRoute = CompanyIndexRouteImport.update({
+  id: '/company/',
+  path: '/company/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupWorkerRoute = SignupWorkerRouteImport.update({
@@ -70,157 +42,83 @@ const SignupWorkerRoute = SignupWorkerRouteImport.update({
   path: '/signup/worker',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SignupAgentRoute = SignupAgentRouteImport.update({
-  id: '/signup/agent',
-  path: '/signup/agent',
+const SignupCompanyRoute = SignupCompanyRouteImport.update({
+  id: '/signup/company',
+  path: '/signup/company',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AgentWorkersRoute = AgentWorkersRouteImport.update({
-  id: '/agent/workers',
-  path: '/agent/workers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AgentPipelineRoute = AgentPipelineRouteImport.update({
-  id: '/agent/pipeline',
-  path: '/agent/pipeline',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WorkerJobsIdRoute = WorkerJobsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => WorkerJobsRoute,
-} as any)
-const AgentWorkersIdRoute = AgentWorkersIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AgentWorkersRoute,
-} as any)
-const AgentJobsNewRoute = AgentJobsNewRouteImport.update({
-  id: '/agent/jobs/new',
-  path: '/agent/jobs/new',
+const CompanyJobsNewRoute = CompanyJobsNewRouteImport.update({
+  id: '/company/jobs/new',
+  path: '/company/jobs/new',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/fees': typeof FeesRoute
   '/login': typeof LoginRoute
-  '/agent/pipeline': typeof AgentPipelineRoute
-  '/agent/workers': typeof AgentWorkersRouteWithChildren
-  '/signup/agent': typeof SignupAgentRoute
+  '/signup/company': typeof SignupCompanyRoute
   '/signup/worker': typeof SignupWorkerRoute
-  '/worker/applications': typeof WorkerApplicationsRoute
-  '/worker/jobs': typeof WorkerJobsRouteWithChildren
-  '/worker/profile': typeof WorkerProfileRoute
-  '/agent/': typeof AgentIndexRoute
+  '/company/': typeof CompanyIndexRoute
   '/worker/': typeof WorkerIndexRoute
-  '/agent/jobs/new': typeof AgentJobsNewRoute
-  '/agent/workers/$id': typeof AgentWorkersIdRoute
-  '/worker/jobs/$id': typeof WorkerJobsIdRoute
+  '/company/jobs/new': typeof CompanyJobsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/fees': typeof FeesRoute
   '/login': typeof LoginRoute
-  '/agent/pipeline': typeof AgentPipelineRoute
-  '/agent/workers': typeof AgentWorkersRouteWithChildren
-  '/signup/agent': typeof SignupAgentRoute
+  '/signup/company': typeof SignupCompanyRoute
   '/signup/worker': typeof SignupWorkerRoute
-  '/worker/applications': typeof WorkerApplicationsRoute
-  '/worker/jobs': typeof WorkerJobsRouteWithChildren
-  '/worker/profile': typeof WorkerProfileRoute
-  '/agent': typeof AgentIndexRoute
+  '/company': typeof CompanyIndexRoute
   '/worker': typeof WorkerIndexRoute
-  '/agent/jobs/new': typeof AgentJobsNewRoute
-  '/agent/workers/$id': typeof AgentWorkersIdRoute
-  '/worker/jobs/$id': typeof WorkerJobsIdRoute
+  '/company/jobs/new': typeof CompanyJobsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/fees': typeof FeesRoute
   '/login': typeof LoginRoute
-  '/agent/pipeline': typeof AgentPipelineRoute
-  '/agent/workers': typeof AgentWorkersRouteWithChildren
-  '/signup/agent': typeof SignupAgentRoute
+  '/signup/company': typeof SignupCompanyRoute
   '/signup/worker': typeof SignupWorkerRoute
-  '/worker/applications': typeof WorkerApplicationsRoute
-  '/worker/jobs': typeof WorkerJobsRouteWithChildren
-  '/worker/profile': typeof WorkerProfileRoute
-  '/agent/': typeof AgentIndexRoute
+  '/company/': typeof CompanyIndexRoute
   '/worker/': typeof WorkerIndexRoute
-  '/agent/jobs/new': typeof AgentJobsNewRoute
-  '/agent/workers/$id': typeof AgentWorkersIdRoute
-  '/worker/jobs/$id': typeof WorkerJobsIdRoute
+  '/company/jobs/new': typeof CompanyJobsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/fees'
     | '/login'
-    | '/agent/pipeline'
-    | '/agent/workers'
-    | '/signup/agent'
+    | '/signup/company'
     | '/signup/worker'
-    | '/worker/applications'
-    | '/worker/jobs'
-    | '/worker/profile'
-    | '/agent/'
+    | '/company/'
     | '/worker/'
-    | '/agent/jobs/new'
-    | '/agent/workers/$id'
-    | '/worker/jobs/$id'
+    | '/company/jobs/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/fees'
     | '/login'
-    | '/agent/pipeline'
-    | '/agent/workers'
-    | '/signup/agent'
+    | '/signup/company'
     | '/signup/worker'
-    | '/worker/applications'
-    | '/worker/jobs'
-    | '/worker/profile'
-    | '/agent'
+    | '/company'
     | '/worker'
-    | '/agent/jobs/new'
-    | '/agent/workers/$id'
-    | '/worker/jobs/$id'
+    | '/company/jobs/new'
   id:
     | '__root__'
     | '/'
-    | '/fees'
     | '/login'
-    | '/agent/pipeline'
-    | '/agent/workers'
-    | '/signup/agent'
+    | '/signup/company'
     | '/signup/worker'
-    | '/worker/applications'
-    | '/worker/jobs'
-    | '/worker/profile'
-    | '/agent/'
+    | '/company/'
     | '/worker/'
-    | '/agent/jobs/new'
-    | '/agent/workers/$id'
-    | '/worker/jobs/$id'
+    | '/company/jobs/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  FeesRoute: typeof FeesRoute
   LoginRoute: typeof LoginRoute
-  AgentPipelineRoute: typeof AgentPipelineRoute
-  AgentWorkersRoute: typeof AgentWorkersRouteWithChildren
-  SignupAgentRoute: typeof SignupAgentRoute
+  SignupCompanyRoute: typeof SignupCompanyRoute
   SignupWorkerRoute: typeof SignupWorkerRoute
-  WorkerApplicationsRoute: typeof WorkerApplicationsRoute
-  WorkerJobsRoute: typeof WorkerJobsRouteWithChildren
-  WorkerProfileRoute: typeof WorkerProfileRoute
-  AgentIndexRoute: typeof AgentIndexRoute
+  CompanyIndexRoute: typeof CompanyIndexRoute
   WorkerIndexRoute: typeof WorkerIndexRoute
-  AgentJobsNewRoute: typeof AgentJobsNewRoute
+  CompanyJobsNewRoute: typeof CompanyJobsNewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -230,13 +128,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/fees': {
-      id: '/fees'
-      path: '/fees'
-      fullPath: '/fees'
-      preLoaderRoute: typeof FeesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -253,32 +144,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkerIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/agent/': {
-      id: '/agent/'
-      path: '/agent'
-      fullPath: '/agent/'
-      preLoaderRoute: typeof AgentIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/worker/profile': {
-      id: '/worker/profile'
-      path: '/worker/profile'
-      fullPath: '/worker/profile'
-      preLoaderRoute: typeof WorkerProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/worker/jobs': {
-      id: '/worker/jobs'
-      path: '/worker/jobs'
-      fullPath: '/worker/jobs'
-      preLoaderRoute: typeof WorkerJobsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/worker/applications': {
-      id: '/worker/applications'
-      path: '/worker/applications'
-      fullPath: '/worker/applications'
-      preLoaderRoute: typeof WorkerApplicationsRouteImport
+    '/company/': {
+      id: '/company/'
+      path: '/company'
+      fullPath: '/company/'
+      preLoaderRoute: typeof CompanyIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signup/worker': {
@@ -288,100 +158,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupWorkerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/signup/agent': {
-      id: '/signup/agent'
-      path: '/signup/agent'
-      fullPath: '/signup/agent'
-      preLoaderRoute: typeof SignupAgentRouteImport
+    '/signup/company': {
+      id: '/signup/company'
+      path: '/signup/company'
+      fullPath: '/signup/company'
+      preLoaderRoute: typeof SignupCompanyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/agent/workers': {
-      id: '/agent/workers'
-      path: '/agent/workers'
-      fullPath: '/agent/workers'
-      preLoaderRoute: typeof AgentWorkersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/agent/pipeline': {
-      id: '/agent/pipeline'
-      path: '/agent/pipeline'
-      fullPath: '/agent/pipeline'
-      preLoaderRoute: typeof AgentPipelineRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/worker/jobs/$id': {
-      id: '/worker/jobs/$id'
-      path: '/$id'
-      fullPath: '/worker/jobs/$id'
-      preLoaderRoute: typeof WorkerJobsIdRouteImport
-      parentRoute: typeof WorkerJobsRoute
-    }
-    '/agent/workers/$id': {
-      id: '/agent/workers/$id'
-      path: '/$id'
-      fullPath: '/agent/workers/$id'
-      preLoaderRoute: typeof AgentWorkersIdRouteImport
-      parentRoute: typeof AgentWorkersRoute
-    }
-    '/agent/jobs/new': {
-      id: '/agent/jobs/new'
-      path: '/agent/jobs/new'
-      fullPath: '/agent/jobs/new'
-      preLoaderRoute: typeof AgentJobsNewRouteImport
+    '/company/jobs/new': {
+      id: '/company/jobs/new'
+      path: '/company/jobs/new'
+      fullPath: '/company/jobs/new'
+      preLoaderRoute: typeof CompanyJobsNewRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface AgentWorkersRouteChildren {
-  AgentWorkersIdRoute: typeof AgentWorkersIdRoute
-}
-
-const AgentWorkersRouteChildren: AgentWorkersRouteChildren = {
-  AgentWorkersIdRoute: AgentWorkersIdRoute,
-}
-
-const AgentWorkersRouteWithChildren = AgentWorkersRoute._addFileChildren(
-  AgentWorkersRouteChildren,
-)
-
-interface WorkerJobsRouteChildren {
-  WorkerJobsIdRoute: typeof WorkerJobsIdRoute
-}
-
-const WorkerJobsRouteChildren: WorkerJobsRouteChildren = {
-  WorkerJobsIdRoute: WorkerJobsIdRoute,
-}
-
-const WorkerJobsRouteWithChildren = WorkerJobsRoute._addFileChildren(
-  WorkerJobsRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  FeesRoute: FeesRoute,
   LoginRoute: LoginRoute,
-  AgentPipelineRoute: AgentPipelineRoute,
-  AgentWorkersRoute: AgentWorkersRouteWithChildren,
-  SignupAgentRoute: SignupAgentRoute,
+  SignupCompanyRoute: SignupCompanyRoute,
   SignupWorkerRoute: SignupWorkerRoute,
-  WorkerApplicationsRoute: WorkerApplicationsRoute,
-  WorkerJobsRoute: WorkerJobsRouteWithChildren,
-  WorkerProfileRoute: WorkerProfileRoute,
-  AgentIndexRoute: AgentIndexRoute,
+  CompanyIndexRoute: CompanyIndexRoute,
   WorkerIndexRoute: WorkerIndexRoute,
-  AgentJobsNewRoute: AgentJobsNewRoute,
+  CompanyJobsNewRoute: CompanyJobsNewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
