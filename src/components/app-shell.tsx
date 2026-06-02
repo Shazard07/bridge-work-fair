@@ -83,7 +83,7 @@ export function AppShell({ role, children }: { role: Role; children: React.React
           </div>
           <p className="mt-4 font-medium text-foreground">Need help in Singapore?</p>
           <p className="mt-1">MOM Foreign Worker Helpline: <span className="font-semibold text-foreground">6438 5122</span></p>
-          <p className="mt-4 text-xs">© getWorkers. Direct hiring marketplace.</p>
+          <p className="mt-4 text-xs">© getWorkers. Transparent hiring marketplace.</p>
         </div>
       </footer>
     </div>

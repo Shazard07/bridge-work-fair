@@ -62,7 +62,7 @@ function CompanySignup() {
       <div className="mx-auto max-w-xl px-4 py-12 md:px-6">
         <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Back</Link>
         <h1 className="mt-4 text-3xl font-bold">Company signup</h1>
-        <p className="mt-1 text-muted-foreground">Post jobs and hire directly. No commissions.</p>
+        <p className="mt-1 text-muted-foreground">Post jobs and hire directly. Transparent hiring.</p>
 
         <form onSubmit={onSubmit} className="mt-8 space-y-4 rounded-xl border border-border bg-card p-6">
           <Field label="Company name" value={form.companyName} onChange={upd("companyName")} required />
