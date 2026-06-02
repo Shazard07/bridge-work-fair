@@ -1,22 +1,32 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
 import { useState } from "react";
-import { DISTRICTS } from "@/lib/data";
-import { LangToggle, useLang } from "@/lib/lang";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/signup/worker")({
-  head: () => ({ meta: [{ title: "Worker Signup — BridgeWork" }] }),
+  head: () => ({ meta: [{ title: "Worker Signup — getWorkers" }] }),
   component: WorkerSignup,
 });
 
+const NATIONALITIES = ["India", "Bangladesh", "Thailand", "China"] as const;
+const LANGUAGES = ["Tamil", "Hindi", "Bengali", "Thai", "Mandarin"] as const;
+const SECTORS = ["Construction", "Marine"] as const;
+
 function WorkerSignup() {
   const nav = useNavigate();
-  const { t } = useLang();
-  const [form, setForm] = useState({ name: "", email: "", password: "", phone: "", district: "Chennai" });
+  const [form, setForm] = useState({
+    name: "", email: "", password: "", mobile: "",
+    nationality: "India" as typeof NATIONALITIES[number],
+    dob: "",
+    language: "Tamil" as typeof LANGUAGES[number],
+    sector: "Construction" as typeof SECTORS[number],
+    years: "0",
+    skills: "",
+    workPassEnd: "",
+  });
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const upd = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setForm({ ...form, [k]: e.target.value });
+  const upd = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setForm({ ...form, [k]: e.target.value });
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -24,71 +34,69 @@ function WorkerSignup() {
     setLoading(true);
 
     const { data, error } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
+      email: form.email, password: form.password,
       options: { emailRedirectTo: `${window.location.origin}/worker` },
     });
     if (error) { setErr(error.message); setLoading(false); return; }
     const user = data.user;
-    if (!user) { setErr(t("Check your email to confirm your account, then log in.", "உங்கள் கணக்கை உறுதிப்படுத்த மின்னஞ்சலைப் பார்க்கவும்.")); setLoading(false); return; }
+    if (!user) { setErr("Check your email to confirm your account, then log in."); setLoading(false); return; }
 
     const { error: pErr } = await supabase.from("profiles").insert({
-      user_id: user.id, role: "worker", full_name: form.name, phone: form.phone,
+      user_id: user.id, role: "worker", full_name: form.name, phone: form.mobile,
     });
     if (pErr) { setErr(pErr.message); setLoading(false); return; }
 
     const { error: wErr } = await supabase.from("worker_profiles").insert({
-      user_id: user.id, district: form.district,
+      user_id: user.id,
+      nationality: form.nationality,
+      date_of_birth: form.dob,
+      language: form.language,
+      sector: form.sector,
+      years_experience: parseInt(form.years || "0", 10),
+      skills: form.skills,
+      work_pass_end_date: form.workPassEnd || null,
     });
     if (wErr) { setErr(wErr.message); setLoading(false); return; }
 
     setLoading(false);
-    nav({ to: "/worker/profile" });
+    nav({ to: "/worker" });
   }
 
   return (
     <AppShell role="public">
       <div className="mx-auto max-w-xl px-4 py-12 md:px-6">
-        <div className="flex items-center justify-between">
-          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← {t("Back", "திரும்பு")}</Link>
-          <LangToggle />
-        </div>
-        <h1 className="mt-4 text-3xl font-bold font-tamil">{t("Worker signup", "தொழிலாளர் பதிவு")}</h1>
-        <p className="mt-1 text-muted-foreground font-tamil">{t("Free for workers. Always.", "தொழிலாளர்களுக்கு இலவசம். எப்போதும்.")}</p>
+        <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Back</Link>
+        <h1 className="mt-4 text-3xl font-bold">Worker signup</h1>
+        <p className="mt-1 text-muted-foreground">Free for workers. Always.</p>
 
         <form onSubmit={onSubmit} className="mt-8 space-y-4 rounded-xl border border-border bg-card p-6">
-          <Field label={t("Full name", "முழு பெயர்")} value={form.name} onChange={upd("name")} required />
-          <Field label={t("Email", "மின்னஞ்சல்")} type="email" value={form.email} onChange={upd("email")} required />
-          <Field label={t("Phone number", "தொலைபேசி எண்")} value={form.phone} onChange={upd("phone")} placeholder="+91 ..." required />
-          <Field label={t("Password", "கடவுச்சொல்")} type="password" value={form.password} onChange={upd("password")} required minLength={6} />
+          <Field label="Full name" value={form.name} onChange={upd("name")} required />
+          <Field label="Email" type="email" value={form.email} onChange={upd("email")} required />
+          <Field label="Password" type="password" value={form.password} onChange={upd("password")} required minLength={6} />
+          <Field label="Mobile number" value={form.mobile} onChange={upd("mobile")} placeholder="+65 / +91 ..." required />
 
-          <div>
-            <span className="mb-1.5 block text-sm font-medium font-tamil">{t("District", "மாவட்டம்")}</span>
-            <select value={form.district} onChange={upd("district")} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
-              {DISTRICTS.map(d => <option key={d}>{d}</option>)}
-            </select>
-          </div>
+          <Select label="Nationality" value={form.nationality} onChange={upd("nationality")} options={NATIONALITIES} />
+          <Field label="Date of birth" type="date" value={form.dob} onChange={upd("dob")} required />
+          <Select label="Language" value={form.language} onChange={upd("language")} options={LANGUAGES} />
+          <Select label="Sector" value={form.sector} onChange={upd("sector")} options={SECTORS} />
+          <Field label="Years of experience" type="number" min={0} value={form.years} onChange={upd("years")} required />
 
-          <div className="grid grid-cols-2 gap-3 rounded-md bg-secondary/50 p-3 text-sm">
-            <div>
-              <div className="text-xs text-muted-foreground">Country</div>
-              <div className="font-medium">India 🇮🇳</div>
-            </div>
-            <div>
-              <div className="text-xs text-muted-foreground">State</div>
-              <div className="font-medium">Tamil Nadu</div>
-            </div>
-          </div>
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-medium">Skills</span>
+            <textarea value={form.skills} onChange={upd("skills")} rows={3} placeholder="e.g. scaffolding, welding, rigging"
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
+          </label>
+
+          <Field label="Work pass end date (optional)" type="date" value={form.workPassEnd} onChange={upd("workPassEnd")} />
 
           {err && <p className="text-sm text-destructive">{err}</p>}
 
-          <button disabled={loading} className="w-full rounded-md bg-accent py-3 font-semibold text-accent-foreground transition-colors hover:opacity-90 disabled:opacity-60 font-tamil">
-            {loading ? "..." : t("Create free account", "இலவச கணக்கை உருவாக்கு")}
+          <button disabled={loading} className="w-full rounded-md bg-accent py-3 font-semibold text-accent-foreground hover:opacity-90 disabled:opacity-60">
+            {loading ? "Creating..." : "Create free account"}
           </button>
-          <p className="text-center text-xs text-muted-foreground font-tamil">{t("You will never be charged. Ever.", "உங்களிடம் எப்போதும் கட்டணம் வசூலிக்கப்படாது.")}</p>
-          <p className="text-center text-sm text-muted-foreground font-tamil">
-            {t("Already have an account?", "ஏற்கனவே கணக்கு உள்ளதா?")}{" "}
-            <Link to="/login" className="font-medium text-primary hover:underline">{t("Log in", "உள்நுழை")}</Link>
+          <p className="text-center text-xs text-muted-foreground">You will never be charged. Ever.</p>
+          <p className="text-center text-sm text-muted-foreground">
+            Already have an account? <Link to="/login" className="font-medium text-primary hover:underline">Log in</Link>
           </p>
         </form>
       </div>
@@ -99,9 +107,19 @@ function WorkerSignup() {
 function Field({ label, ...props }: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-sm font-medium font-tamil">{label}</span>
-      <input {...props}
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
+      <span className="mb-1.5 block text-sm font-medium">{label}</span>
+      <input {...props} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
+    </label>
+  );
+}
+
+function Select({ label, value, onChange, options }: { label: string; value: string; onChange: React.ChangeEventHandler<HTMLSelectElement>; options: readonly string[] }) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-sm font-medium">{label}</span>
+      <select value={value} onChange={onChange} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+        {options.map(o => <option key={o} value={o}>{o}</option>)}
+      </select>
     </label>
   );
 }
