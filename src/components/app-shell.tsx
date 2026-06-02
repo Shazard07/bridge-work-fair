@@ -7,11 +7,10 @@ type Role = "worker" | "company" | "public";
 
 const NAV: Record<Exclude<Role, "public">, { to: string; label: string }[]> = {
   worker: [
-    { to: "/worker", label: "Dashboard" },
+    { to: "/worker", label: "My Profile" },
   ],
   company: [
-    { to: "/company", label: "Dashboard" },
-    { to: "/company/jobs/new", label: "Post Job" },
+    { to: "/company", label: "Find Workers" },
   ],
 };
 
@@ -78,12 +77,12 @@ export function AppShell({ role, children }: { role: Role; children: React.React
       <footer className="mt-16 border-t border-border bg-secondary/30">
         <div className="mx-auto max-w-7xl px-4 py-8 text-sm text-muted-foreground md:px-6">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center rounded-full bg-success/10 px-2.5 py-1 text-xs font-semibold text-success">$0 placement fee</span>
+            <span className="inline-flex items-center rounded-full bg-success/10 px-2.5 py-1 text-xs font-semibold text-success">Free during MVP</span>
             <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">Workers pay nothing</span>
           </div>
           <p className="mt-4 font-medium text-foreground">Need help in Singapore?</p>
           <p className="mt-1">MOM Foreign Worker Helpline: <span className="font-semibold text-foreground">6438 5122</span></p>
-          <p className="mt-4 text-xs">© getWorkers. Transparent hiring marketplace.</p>
+          <p className="mt-4 text-xs">© getWorkers. Verified worker discovery platform.</p>
         </div>
       </footer>
     </div>
@@ -98,12 +97,12 @@ export function SectorBadge({ sector }: { sector: "Construction" | "Marine" }) {
   );
 }
 
-export function StatusBadge({ status }: { status: "Pending" | "Viewed" | "Contacted" | "Rejected" }) {
-  const map = {
-    Pending: "bg-warning/10 text-warning",
-    Viewed: "bg-primary/10 text-primary",
-    Contacted: "bg-success/10 text-success",
-    Rejected: "bg-destructive/10 text-destructive",
-  } as const;
-  return <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${map[status]}`}>{status}</span>;
+export function AvailabilityBadge({ available }: { available: boolean }) {
+  return available ? (
+    <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2.5 py-0.5 text-xs font-semibold text-success">
+      <span className="h-1.5 w-1.5 rounded-full bg-success" /> Available now
+    </span>
+  ) : (
+    <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-semibold text-muted-foreground">Not available</span>
+  );
 }

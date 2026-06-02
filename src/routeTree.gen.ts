@@ -15,7 +15,6 @@ import { Route as WorkerIndexRouteImport } from './routes/worker.index'
 import { Route as CompanyIndexRouteImport } from './routes/company.index'
 import { Route as SignupWorkerRouteImport } from './routes/signup.worker'
 import { Route as SignupCompanyRouteImport } from './routes/signup.company'
-import { Route as CompanyJobsNewRouteImport } from './routes/company.jobs.new'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -47,11 +46,6 @@ const SignupCompanyRoute = SignupCompanyRouteImport.update({
   path: '/signup/company',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CompanyJobsNewRoute = CompanyJobsNewRouteImport.update({
-  id: '/company/jobs/new',
-  path: '/company/jobs/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,7 +54,6 @@ export interface FileRoutesByFullPath {
   '/signup/worker': typeof SignupWorkerRoute
   '/company/': typeof CompanyIndexRoute
   '/worker/': typeof WorkerIndexRoute
-  '/company/jobs/new': typeof CompanyJobsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -69,7 +62,6 @@ export interface FileRoutesByTo {
   '/signup/worker': typeof SignupWorkerRoute
   '/company': typeof CompanyIndexRoute
   '/worker': typeof WorkerIndexRoute
-  '/company/jobs/new': typeof CompanyJobsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -79,7 +71,6 @@ export interface FileRoutesById {
   '/signup/worker': typeof SignupWorkerRoute
   '/company/': typeof CompanyIndexRoute
   '/worker/': typeof WorkerIndexRoute
-  '/company/jobs/new': typeof CompanyJobsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -90,7 +81,6 @@ export interface FileRouteTypes {
     | '/signup/worker'
     | '/company/'
     | '/worker/'
-    | '/company/jobs/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -99,7 +89,6 @@ export interface FileRouteTypes {
     | '/signup/worker'
     | '/company'
     | '/worker'
-    | '/company/jobs/new'
   id:
     | '__root__'
     | '/'
@@ -108,7 +97,6 @@ export interface FileRouteTypes {
     | '/signup/worker'
     | '/company/'
     | '/worker/'
-    | '/company/jobs/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -118,7 +106,6 @@ export interface RootRouteChildren {
   SignupWorkerRoute: typeof SignupWorkerRoute
   CompanyIndexRoute: typeof CompanyIndexRoute
   WorkerIndexRoute: typeof WorkerIndexRoute
-  CompanyJobsNewRoute: typeof CompanyJobsNewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -165,13 +152,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupCompanyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/company/jobs/new': {
-      id: '/company/jobs/new'
-      path: '/company/jobs/new'
-      fullPath: '/company/jobs/new'
-      preLoaderRoute: typeof CompanyJobsNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -182,8 +162,17 @@ const rootRouteChildren: RootRouteChildren = {
   SignupWorkerRoute: SignupWorkerRoute,
   CompanyIndexRoute: CompanyIndexRoute,
   WorkerIndexRoute: WorkerIndexRoute,
-  CompanyJobsNewRoute: CompanyJobsNewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
