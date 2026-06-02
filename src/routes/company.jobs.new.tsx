@@ -23,7 +23,6 @@ function PostJob() {
     location: "",
     contractDuration: "",
     startDate: "",
-    workHours: "",
     description: "",
   });
   const [err, setErr] = useState<string | null>(null);
@@ -48,7 +47,6 @@ function PostJob() {
       location: form.location || null,
       contract_duration: form.contractDuration || null,
       start_date: form.startDate || null,
-      work_hours: form.workHours || null,
       description: form.description || null,
     });
     setLoading(false);
@@ -74,7 +72,6 @@ function PostJob() {
           <Field label="Work location" value={form.location} onChange={upd("location")} />
           <Field label="Contract duration" value={form.contractDuration} onChange={upd("contractDuration")} placeholder="e.g. 2 years" />
           <Field label="Expected start date" type="date" value={form.startDate} onChange={upd("startDate")} />
-          <Field label="Work hours" value={form.workHours} onChange={upd("workHours")} placeholder="e.g. Mon–Sat, 8am–6pm" />
 
           <label className="block">
             <span className="mb-1.5 block text-sm font-medium">Job description</span>
