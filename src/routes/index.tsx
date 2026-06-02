@@ -5,8 +5,8 @@ import { UserPlus, Building2, Handshake, ShieldCheck, CheckCircle, Eye, Users } 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "getWorkers — Direct hiring in Singapore. $0 placement fees." },
-      { name: "description", content: "Connect migrant workers and Singapore businesses directly. No agent fees, ever." },
+      { title: "getWorkers — Transparent hiring in Singapore. Verified workers. Trusted companies." },
+      { name: "description", content: "Transparent hiring connecting verified migrant workers with trusted Singapore companies. No hidden fees." },
     ],
   }),
   component: Landing,
