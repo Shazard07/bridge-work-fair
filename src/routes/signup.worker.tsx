@@ -105,6 +105,25 @@ function WorkerSignup() {
 
           <Field label="Work pass end date (optional)" type="date" value={form.workPassEnd} onChange={upd("workPassEnd")} />
 
+          <div className="pt-2">
+            <h2 className="text-sm font-semibold text-muted-foreground">Education & experience</h2>
+          </div>
+          <Field label="Education" value={form.education} onChange={upd("education")} placeholder="e.g. High school, Diploma in welding" />
+          <Field label="Certifications (optional)" value={form.certifications} onChange={upd("certifications")} placeholder="e.g. WSH, Forklift license" />
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="Singapore experience (years)" type="number" min={0} step="0.5" value={form.sgYears} onChange={upd("sgYears")} />
+            <Field label="Period (e.g. 2019–2024)" value={form.sgPeriod} onChange={upd("sgPeriod")} />
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="Other experience (years)" type="number" min={0} step="0.5" value={form.otherYears} onChange={upd("otherYears")} />
+            <Field label="Period (e.g. 2015–2019)" value={form.otherPeriod} onChange={upd("otherPeriod")} />
+          </div>
+
+          <Field label="Last drawn salary (SGD/month)" type="number" min={0} value={form.lastSalary} onChange={upd("lastSalary")} />
+          <Field label="Expected salary (SGD/month)" type="number" min={0} value={form.expectedSalary} onChange={upd("expectedSalary")} />
+
+
           {err && <p className="text-sm text-destructive">{err}</p>}
 
           <button disabled={loading} className="w-full rounded-md bg-accent py-3 font-semibold text-accent-foreground hover:opacity-90 disabled:opacity-60">
