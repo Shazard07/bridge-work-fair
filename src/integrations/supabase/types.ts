@@ -14,7 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      agent_profiles: {
+        Row: {
+          company_name: string
+          contact_name: string
+          created_at: string
+          ea_license_number: string
+          updated_at: string
+          user_id: string
+          verified: boolean
+        }
+        Insert: {
+          company_name: string
+          contact_name: string
+          created_at?: string
+          ea_license_number: string
+          updated_at?: string
+          user_id: string
+          verified?: boolean
+        }
+        Update: {
+          company_name?: string
+          contact_name?: string
+          created_at?: string
+          ea_license_number?: string
+          updated_at?: string
+          user_id?: string
+          verified?: boolean
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          phone: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          full_name: string
+          phone?: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      worker_profiles: {
+        Row: {
+          created_at: string
+          district: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          district: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          district?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +100,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role: "agent" | "worker"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +227,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      user_role: ["agent", "worker"],
+    },
   },
 } as const
