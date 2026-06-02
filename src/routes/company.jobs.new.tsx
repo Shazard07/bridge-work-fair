@@ -64,7 +64,7 @@ function PostJob() {
       <div className="mx-auto max-w-xl px-4 py-8 md:px-6">
         <Link to="/company" className="text-sm text-muted-foreground hover:text-foreground">← Back to dashboard</Link>
         <h1 className="mt-4 text-2xl font-bold md:text-3xl">Post a job</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Reach workers directly. No commissions.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Reach verified workers directly. Transparent hiring.</p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4 rounded-xl border border-border bg-card p-6">
           <Field label="Job title" value={form.title} onChange={upd("title")} required />
