@@ -16,9 +16,10 @@ type Job = {
   sector: "Construction" | "Marine";
   work_pass_type: string;
   workers_needed: number;
-  min_salary: number;
-  max_salary: number;
-  salary_period: "day" | "month";
+  min_salary: number | null;
+  max_salary: number | null;
+  min_salary_day: number | null;
+  max_salary_day: number | null;
   location: string;
   contract_duration: string;
   start_date: string;
