@@ -16,9 +16,10 @@ type Job = {
   sector: "Construction" | "Marine";
   work_pass_type: string;
   workers_needed: number;
-  min_salary: number;
-  max_salary: number;
-  salary_period: "day" | "month";
+  min_salary: number | null;
+  max_salary: number | null;
+  min_salary_day: number | null;
+  max_salary_day: number | null;
   location: string;
   contract_duration: string;
   start_date: string;
@@ -102,7 +103,14 @@ function WorkerDashboard() {
                     <p className="mt-1 text-sm text-muted-foreground">{companies[j.company_id] ?? "Company"}</p>
                   </div>
                   <div className="text-right">
-                    <div className="text-lg font-bold text-foreground">${j.min_salary}–${j.max_salary}<span className="text-xs font-medium text-muted-foreground">/{j.salary_period}</span></div>
+                    <div className="text-lg font-bold text-foreground">
+                      {(j.min_salary != null || j.max_salary != null) && (
+                        <div>${j.min_salary ?? "?"}–${j.max_salary ?? "?"}<span className="text-xs font-medium text-muted-foreground">/month</span></div>
+                      )}
+                      {(j.min_salary_day != null || j.max_salary_day != null) && (
+                        <div>${j.min_salary_day ?? "?"}–${j.max_salary_day ?? "?"}<span className="text-xs font-medium text-muted-foreground">/day</span></div>
+                      )}
+                    </div>
                     <div className="text-xs text-muted-foreground">{j.work_pass_type}</div>
                   </div>
                 </div>
