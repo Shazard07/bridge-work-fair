@@ -94,8 +94,9 @@ export type Database = {
           id: string
           location: string | null
           max_salary: number | null
+          max_salary_day: number | null
           min_salary: number | null
-          salary_period: Database["public"]["Enums"]["salary_period"]
+          min_salary_day: number | null
           sector: Database["public"]["Enums"]["sector"] | null
           start_date: string | null
           title: string | null
@@ -114,8 +115,9 @@ export type Database = {
           id?: string
           location?: string | null
           max_salary?: number | null
+          max_salary_day?: number | null
           min_salary?: number | null
-          salary_period?: Database["public"]["Enums"]["salary_period"]
+          min_salary_day?: number | null
           sector?: Database["public"]["Enums"]["sector"] | null
           start_date?: string | null
           title?: string | null
@@ -134,8 +136,9 @@ export type Database = {
           id?: string
           location?: string | null
           max_salary?: number | null
+          max_salary_day?: number | null
           min_salary?: number | null
-          salary_period?: Database["public"]["Enums"]["salary_period"]
+          min_salary_day?: number | null
           sector?: Database["public"]["Enums"]["sector"] | null
           start_date?: string | null
           title?: string | null
@@ -225,7 +228,6 @@ export type Database = {
       application_status: "Pending" | "Viewed" | "Contacted" | "Rejected"
       language: "Tamil" | "Hindi" | "Bengali" | "Thai" | "Mandarin"
       nationality: "India" | "Bangladesh" | "Thailand" | "China"
-      salary_period: "day" | "month"
       sector: "Construction" | "Marine"
       user_role: "worker" | "company"
       work_pass_accepted: "Work Permit" | "S Pass" | "Both"
@@ -360,7 +362,6 @@ export const Constants = {
       application_status: ["Pending", "Viewed", "Contacted", "Rejected"],
       language: ["Tamil", "Hindi", "Bengali", "Thai", "Mandarin"],
       nationality: ["India", "Bangladesh", "Thailand", "China"],
-      salary_period: ["day", "month"],
       sector: ["Construction", "Marine"],
       user_role: ["worker", "company"],
       work_pass_accepted: ["Work Permit", "S Pass", "Both"],
