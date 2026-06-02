@@ -40,17 +40,16 @@ function PostJob() {
     setLoading(true);
     const { error } = await supabase.from("jobs").insert({
       company_id: user.id,
-      title: form.title,
-      sector: form.sector,
-      work_pass_type: form.workPass,
-      workers_needed: parseInt(form.workersNeeded || "1", 10),
-      min_salary: parseInt(form.minSalary || "0", 10),
-      max_salary: parseInt(form.maxSalary || "0", 10),
-      location: form.location,
-      contract_duration: form.contractDuration,
-      start_date: form.startDate,
-      work_hours: form.workHours,
-      description: form.description,
+      title: form.title || null,
+      sector: form.sector || null,
+      workers_needed: form.workersNeeded ? parseInt(form.workersNeeded, 10) : null,
+      min_salary: form.minSalary ? parseInt(form.minSalary, 10) : null,
+      max_salary: form.maxSalary ? parseInt(form.maxSalary, 10) : null,
+      location: form.location || null,
+      contract_duration: form.contractDuration || null,
+      start_date: form.startDate || null,
+      work_hours: form.workHours || null,
+      description: form.description || null,
     });
     setLoading(false);
     if (error) { setErr(error.message); return; }
