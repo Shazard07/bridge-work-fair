@@ -23,6 +23,14 @@ function WorkerSignup() {
     years: "0",
     skills: "",
     workPassEnd: "",
+    education: "",
+    certifications: "",
+    sgYears: "",
+    sgPeriod: "",
+    otherYears: "",
+    otherPeriod: "",
+    lastSalary: "",
+    expectedSalary: "",
   });
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
