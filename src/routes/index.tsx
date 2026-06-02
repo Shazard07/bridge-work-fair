@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
-import { UserPlus, Building2, Handshake, ShieldCheck, Check, X } from "lucide-react";
+import { UserPlus, Building2, Handshake, ShieldCheck, CheckCircle, Eye, Users } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
