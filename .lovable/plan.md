@@ -1,24 +1,37 @@
 ## Goal
-Replace the single salary range + period dropdown with two separate salary ranges: one monthly, one daily. Both visible at all times, neither required.
+Collect additional worker info at signup: education & certifications, Singapore experience, other-country experience, last drawn salary, expected salary.
 
-## UI changes (`src/routes/company.jobs.new.tsx`)
-Replace the current salary block (Min/Max SGD grid + Salary period select) with:
+## Database changes (`worker_profiles`)
+Add nullable columns:
+- `education` text — free-form (e.g. "High school", "Diploma in welding")
+- `certifications` text — free-form list (e.g. "WSH, Forklift license")
+- `sg_experience_years` numeric — years worked in Singapore
+- `sg_experience_period` text — optional period note (e.g. "2019–2024")
+- `other_experience_years` numeric — years worked outside Singapore
+- `other_experience_period` text — optional period note
+- `last_drawn_salary` integer — SGD/month
+- `expected_salary` integer — SGD/month
+
+All optional so existing rows stay valid. No RLS changes needed (existing policies cover them).
+
+## UI changes (`src/routes/signup.worker.tsx`)
+Add a new section "Experience & salary" below the existing skills field with these inputs:
 
 ```text
-Min salary (SGD/month)   Max salary (SGD/month)
-Min salary (SGD/day)     Max salary (SGD/day)
+Education
+Certifications (optional)
+
+Singapore experience (years)   Period (e.g. 2019–2024)
+Other experience (years)       Period (e.g. 2015–2019)
+
+Last drawn salary (SGD/month)
+Expected salary (SGD/month)
 ```
 
-- Remove the `Salary period` `<Select>` and the `SALARY_PERIODS` constant.
-- Form state: drop `salaryPeriod`; add `minSalaryDay` and `maxSalaryDay` (keep existing `minSalary` / `maxSalary` as the monthly values).
-- All four fields remain optional.
-
-## Data changes
-- Migration on `jobs`: add `min_salary_day int`, `max_salary_day int` (nullable). Drop `salary_period` column and the `salary_period` enum (no longer used).
-- Insert payload maps: `min_salary` / `max_salary` = monthly inputs; `min_salary_day` / `max_salary_day` = daily inputs.
-
-## Worker dashboard (`src/routes/worker.index.tsx`)
-Update `Job` type and salary display: show "SGD X–Y/month" when monthly values exist and "SGD X–Y/day" when daily values exist (both lines can show if both are set). Remove the `salary_period` field.
+- Extend `form` state with the new fields (all strings, parsed on submit).
+- On submit, include them in the `worker_profiles` insert payload (empty → `null`, numbers parsed via `parseInt`/`parseFloat`).
+- Keep current styling (`Field` component); no validation beyond existing required flags. All new fields optional.
 
 ## Out of scope
-No changes to other fields, validation, or styling.
+- Worker dashboard / company-facing display of these fields (can be added in a follow-up).
+- No changes to job posting flow.

@@ -180,11 +180,19 @@ export type Database = {
       }
       worker_profiles: {
         Row: {
+          certifications: string | null
           created_at: string
           date_of_birth: string
+          education: string | null
+          expected_salary: number | null
           language: Database["public"]["Enums"]["language"]
+          last_drawn_salary: number | null
           nationality: Database["public"]["Enums"]["nationality"]
+          other_experience_period: string | null
+          other_experience_years: number | null
           sector: Database["public"]["Enums"]["sector"]
+          sg_experience_period: string | null
+          sg_experience_years: number | null
           skills: string
           updated_at: string
           user_id: string
@@ -192,11 +200,19 @@ export type Database = {
           years_experience: number
         }
         Insert: {
+          certifications?: string | null
           created_at?: string
           date_of_birth: string
+          education?: string | null
+          expected_salary?: number | null
           language: Database["public"]["Enums"]["language"]
+          last_drawn_salary?: number | null
           nationality: Database["public"]["Enums"]["nationality"]
+          other_experience_period?: string | null
+          other_experience_years?: number | null
           sector: Database["public"]["Enums"]["sector"]
+          sg_experience_period?: string | null
+          sg_experience_years?: number | null
           skills?: string
           updated_at?: string
           user_id: string
@@ -204,11 +220,19 @@ export type Database = {
           years_experience?: number
         }
         Update: {
+          certifications?: string | null
           created_at?: string
           date_of_birth?: string
+          education?: string | null
+          expected_salary?: number | null
           language?: Database["public"]["Enums"]["language"]
+          last_drawn_salary?: number | null
           nationality?: Database["public"]["Enums"]["nationality"]
+          other_experience_period?: string | null
+          other_experience_years?: number | null
           sector?: Database["public"]["Enums"]["sector"]
+          sg_experience_period?: string | null
+          sg_experience_years?: number | null
           skills?: string
           updated_at?: string
           user_id?: string
