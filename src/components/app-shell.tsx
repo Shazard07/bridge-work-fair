@@ -3,6 +3,7 @@ import { Bell, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { LangToggle, useLang } from "@/lib/lang";
 import { NOTIFICATIONS_AGENT, NOTIFICATIONS_WORKER } from "@/lib/data";
+import { useAuth } from "@/hooks/use-auth";
 
 type Role = "agent" | "worker" | "public";
 
@@ -28,9 +29,11 @@ export function AppShell({ role, children }: { role: Role; children: React.React
   const { t } = useLang();
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const { signOut } = useAuth();
   const [bellOpen, setBellOpen] = useState(false);
   const notes = role === "agent" ? NOTIFICATIONS_AGENT : NOTIFICATIONS_WORKER;
   const unread = notes.filter(n => n.unread).length;
+  const handleSignOut = async () => { await signOut(); router.navigate({ to: "/" }); };
 
   return (
     <div className="min-h-screen bg-background">
@@ -80,7 +83,7 @@ export function AppShell({ role, children }: { role: Role; children: React.React
               </div>
             )}
             {role !== "public" && (
-              <button onClick={() => router.navigate({ to: "/" })} className="hidden rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground md:inline-block">
+              <button onClick={handleSignOut} className="hidden rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground md:inline-block">
                 Sign out
               </button>
             )}

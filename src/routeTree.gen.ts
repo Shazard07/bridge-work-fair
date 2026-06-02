@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as FeesRouteImport } from './routes/fees'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkerIndexRouteImport } from './routes/worker.index'
@@ -24,6 +25,11 @@ import { Route as WorkerJobsIdRouteImport } from './routes/worker.jobs.$id'
 import { Route as AgentWorkersIdRouteImport } from './routes/agent.workers.$id'
 import { Route as AgentJobsNewRouteImport } from './routes/agent.jobs.new'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FeesRoute = FeesRouteImport.update({
   id: '/fees',
   path: '/fees',
@@ -98,6 +104,7 @@ const AgentJobsNewRoute = AgentJobsNewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fees': typeof FeesRoute
+  '/login': typeof LoginRoute
   '/agent/pipeline': typeof AgentPipelineRoute
   '/agent/workers': typeof AgentWorkersRouteWithChildren
   '/signup/agent': typeof SignupAgentRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fees': typeof FeesRoute
+  '/login': typeof LoginRoute
   '/agent/pipeline': typeof AgentPipelineRoute
   '/agent/workers': typeof AgentWorkersRouteWithChildren
   '/signup/agent': typeof SignupAgentRoute
@@ -131,6 +139,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/fees': typeof FeesRoute
+  '/login': typeof LoginRoute
   '/agent/pipeline': typeof AgentPipelineRoute
   '/agent/workers': typeof AgentWorkersRouteWithChildren
   '/signup/agent': typeof SignupAgentRoute
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/fees'
+    | '/login'
     | '/agent/pipeline'
     | '/agent/workers'
     | '/signup/agent'
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/fees'
+    | '/login'
     | '/agent/pipeline'
     | '/agent/workers'
     | '/signup/agent'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/fees'
+    | '/login'
     | '/agent/pipeline'
     | '/agent/workers'
     | '/signup/agent'
@@ -198,6 +210,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FeesRoute: typeof FeesRoute
+  LoginRoute: typeof LoginRoute
   AgentPipelineRoute: typeof AgentPipelineRoute
   AgentWorkersRoute: typeof AgentWorkersRouteWithChildren
   SignupAgentRoute: typeof SignupAgentRoute
@@ -212,6 +225,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fees': {
       id: '/fees'
       path: '/fees'
@@ -340,6 +360,7 @@ const WorkerJobsRouteWithChildren = WorkerJobsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FeesRoute: FeesRoute,
+  LoginRoute: LoginRoute,
   AgentPipelineRoute: AgentPipelineRoute,
   AgentWorkersRoute: AgentWorkersRouteWithChildren,
   SignupAgentRoute: SignupAgentRoute,
@@ -354,3 +375,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
