@@ -10,7 +10,6 @@ export const Route = createFileRoute("/company/jobs/new")({
 });
 
 const SECTORS = ["Construction", "Marine"] as const;
-const WORK_PASS = ["Work Permit", "S Pass", "Both"] as const;
 
 function PostJob() {
   const { user, loading: authLoading } = useAuth();
