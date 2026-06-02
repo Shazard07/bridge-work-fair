@@ -102,7 +102,7 @@ function WorkerDashboard() {
                     <p className="mt-1 text-sm text-muted-foreground">{companies[j.company_id] ?? "Company"}</p>
                   </div>
                   <div className="text-right">
-                    <div className="text-lg font-bold text-foreground">${j.min_salary}–${j.max_salary}<span className="text-xs font-medium text-muted-foreground">/mo</span></div>
+                    <div className="text-lg font-bold text-foreground">${j.min_salary}–${j.max_salary}<span className="text-xs font-medium text-muted-foreground">/{j.salary_period}</span></div>
                     <div className="text-xs text-muted-foreground">{j.work_pass_type}</div>
                   </div>
                 </div>
