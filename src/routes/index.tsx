@@ -65,12 +65,12 @@ function Landing() {
       {/* How it works */}
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-6">
         <h2 className="text-center text-3xl font-bold tracking-tight">How it works</h2>
-        <p className="mt-2 text-center text-muted-foreground">No middlemen. No fees.</p>
+        <p className="mt-2 text-center text-muted-foreground">Simple. Transparent. Direct.</p>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {[
-            { icon: UserPlus, title: "Sign up free", body: "Workers and companies create profiles in minutes." },
-            { icon: Handshake, title: "Match directly", body: "Workers apply, companies review. Connect without any agent in the middle." },
-            { icon: Building2, title: "Hire — $0 fee", body: "No placement fee. No debt. Workers keep their full salary." },
+            { icon: UserPlus, title: "Sign up free", body: "Workers and companies create verified profiles in minutes." },
+            { icon: Handshake, title: "Match directly", body: "Workers apply, companies review. Connect transparently with full visibility." },
+            { icon: Building2, title: "Hire with confidence", body: "Clear terms. Fair wages. No hidden costs. Both sides know exactly what to expect." },
           ].map((s, i) => (
             <div key={i} className="relative rounded-xl border border-border bg-card p-6">
               <div className="absolute -top-3 left-6 inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">{i + 1}</div>
@@ -86,18 +86,24 @@ function Landing() {
       <section className="border-y border-border bg-secondary/30">
         <div className="mx-auto max-w-7xl px-4 py-16 md:px-6">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-bold md:text-4xl">No broker. No debt. No hidden fees.</h2>
+            <h2 className="text-3xl font-bold md:text-4xl">Transparent. Verified. Trusted.</h2>
+            <p className="mt-3 text-muted-foreground">Built for clarity and confidence on both sides.</p>
           </div>
-          <div className="mx-auto mt-10 grid max-w-4xl gap-4 md:grid-cols-2">
-            <div className="rounded-xl border-2 border-danger/30 bg-danger/5 p-6">
-              <div className="flex items-center gap-2 text-danger"><X className="h-5 w-5" /><span className="text-sm font-bold uppercase tracking-wide">Traditional Agents</span></div>
-              <p className="mt-4 text-3xl font-extrabold">$5,000–$15,000 <span className="text-base font-medium text-muted-foreground">SGD</span></p>
-              <p className="mt-2 text-sm text-muted-foreground">Worker pays brokers before arriving. Arrives in debt.</p>
+          <div className="mx-auto mt-10 grid max-w-4xl gap-4 md:grid-cols-3">
+            <div className="rounded-xl border border-border bg-card p-6">
+              <Eye className="h-6 w-6 text-primary" strokeWidth={1.5} />
+              <h3 className="mt-3 text-lg font-semibold">Transparent Process</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Salaries, terms, and expectations are visible upfront. No surprises.</p>
             </div>
-            <div className="rounded-xl border-2 border-success/40 bg-success/5 p-6">
-              <div className="flex items-center gap-2 text-success"><Check className="h-5 w-5" /><span className="text-sm font-bold uppercase tracking-wide">getWorkers</span></div>
-              <p className="mt-4 text-3xl font-extrabold">$0 <span className="text-base font-medium text-muted-foreground">Always.</span></p>
-              <p className="mt-2 text-sm text-muted-foreground">Worker pays nothing. Companies pay no commission to brokers.</p>
+            <div className="rounded-xl border border-border bg-card p-6">
+              <Users className="h-6 w-6 text-accent" strokeWidth={1.5} />
+              <h3 className="mt-3 text-lg font-semibold">Verified Profiles</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Worker skills and company details visible to both sides before any connection.</p>
+            </div>
+            <div className="rounded-xl border border-border bg-card p-6">
+              <CheckCircle className="h-6 w-6 text-success" strokeWidth={1.5} />
+              <h3 className="mt-3 text-lg font-semibold">Trusted Connections</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Direct communication between workers and companies. No delays, no opacity.</p>
             </div>
           </div>
         </div>
