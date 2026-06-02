@@ -63,6 +63,14 @@ function WorkerSignup() {
       years_experience: parseInt(form.years || "0", 10),
       skills: form.skills,
       work_pass_end_date: form.workPassEnd || null,
+      education: form.education || null,
+      certifications: form.certifications || null,
+      sg_experience_years: form.sgYears ? parseFloat(form.sgYears) : null,
+      sg_experience_period: form.sgPeriod || null,
+      other_experience_years: form.otherYears ? parseFloat(form.otherYears) : null,
+      other_experience_period: form.otherPeriod || null,
+      last_drawn_salary: form.lastSalary ? parseInt(form.lastSalary, 10) : null,
+      expected_salary: form.expectedSalary ? parseInt(form.expectedSalary, 10) : null,
     });
     if (wErr) { setErr(wErr.message); setLoading(false); return; }
 
