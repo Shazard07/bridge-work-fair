@@ -34,9 +34,9 @@ function Landing() {
               <Link to="/signup/worker" className="inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 text-base font-semibold text-accent-foreground hover:opacity-90 sm:w-auto">
                 I'm a Worker
               </Link>
-              <Link to="/signup/company" className="inline-flex w-full items-center justify-center rounded-md border border-primary bg-card px-6 py-3 text-base font-semibold text-primary hover:bg-primary hover:text-primary-foreground sm:w-auto">
+              <span className="inline-flex w-full items-center justify-center rounded-md border border-border bg-muted px-6 py-3 text-base font-semibold text-muted-foreground cursor-not-allowed sm:w-auto" title="Company sign-ups are temporarily closed">
                 I'm a Company
-              </Link>
+              </span>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
               Already have an account? <Link to="/login" className="font-semibold text-primary hover:underline">Log in</Link>
@@ -115,7 +115,7 @@ function Landing() {
           <h2 className="text-3xl font-bold md:text-4xl">Ready to start?</h2>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link to="/signup/worker" className="inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 font-semibold text-accent-foreground hover:opacity-90 sm:w-auto">I'm a Worker</Link>
-            <Link to="/signup/company" className="inline-flex w-full items-center justify-center rounded-md border border-primary-foreground/30 bg-transparent px-6 py-3 font-semibold text-primary-foreground hover:bg-primary-foreground/10 sm:w-auto">I'm a Company</Link>
+            <span className="inline-flex w-full items-center justify-center rounded-md border border-primary-foreground/30 bg-transparent px-6 py-3 font-semibold text-primary-foreground/60 cursor-not-allowed sm:w-auto" title="Company sign-ups are temporarily closed">I'm a Company</span>
           </div>
         </div>
       </section>

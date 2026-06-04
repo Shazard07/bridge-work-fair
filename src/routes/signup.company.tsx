@@ -1,131 +1,46 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { Building2, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/signup/company")({
-  head: () => ({ meta: [{ title: "Company Signup — getWorkers" }] }),
-  component: CompanySignup,
+  head: () => ({ meta: [{ title: "Company Signup — Coming Soon — getWorkers" }] }),
+  component: CompanySignupClosed,
 });
 
-const SECTORS = ["Construction", "Marine"] as const;
-const WORK_PASS = ["Work Permit", "S Pass", "Both"] as const;
-
-const UEN_REGEX = /^(\d{8}[A-Z]|\d{9}[A-Z]|[TSR]\d{2}[A-Z]{2}\d{4}[A-Z])$/;
-const FREE_EMAIL_DOMAINS = new Set([
-  "gmail.com","googlemail.com","yahoo.com","yahoo.com.sg","hotmail.com","hotmail.sg",
-  "outlook.com","live.com","msn.com","icloud.com","me.com","aol.com",
-  "proton.me","protonmail.com","qq.com","163.com","126.com","mail.com",
-  "zoho.com","gmx.com","yandex.com",
-]);
-
-function CompanySignup() {
-  const nav = useNavigate();
-  const [form, setForm] = useState({
-    companyName: "", uen: "",
-    sector: "Construction" as typeof SECTORS[number],
-    contactName: "", contactPhone: "",
-    email: "", password: "",
-    workPass: "Both" as typeof WORK_PASS[number],
-  });
-  const [err, setErr] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<{ uen?: string; email?: string }>({});
-  const [loading, setLoading] = useState(false);
-  const upd = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setForm({ ...form, [k]: e.target.value });
-
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setErr(null);
-
-    const uen = form.uen.trim().toUpperCase();
-    const email = form.email.trim().toLowerCase();
-    const domain = email.split("@")[1] ?? "";
-
-    const fe: { uen?: string; email?: string } = {};
-    if (!UEN_REGEX.test(uen)) fe.uen = "Enter a valid Singapore UEN (e.g. 201912345A or T05LL1234B).";
-    if (!domain || FREE_EMAIL_DOMAINS.has(domain)) fe.email = "Please use your company email address — free email providers aren't accepted.";
-    setFieldErrors(fe);
-    if (fe.uen || fe.email) return;
-
-    setLoading(true);
-
-    const { data, error } = await supabase.auth.signUp({
-      email, password: form.password,
-      options: { emailRedirectTo: `${window.location.origin}/company` },
-    });
-    if (error) { setErr(error.message); setLoading(false); return; }
-    const user = data.user;
-    if (!user) { setErr("Check your email to confirm your account, then log in."); setLoading(false); return; }
-
-    const { error: pErr } = await supabase.from("profiles").insert({
-      user_id: user.id, role: "company", full_name: form.contactName, phone: form.contactPhone,
-    });
-    if (pErr) { setErr(pErr.message); setLoading(false); return; }
-
-    const { error: cErr } = await supabase.from("company_profiles").insert({
-      user_id: user.id,
-      company_name: form.companyName,
-      uen,
-      sector: form.sector,
-      contact_name: form.contactName,
-      contact_phone: form.contactPhone,
-      work_pass_accepted: form.workPass,
-    });
-    if (cErr) { setErr(cErr.message); setLoading(false); return; }
-
-    setLoading(false);
-    nav({ to: "/company" });
-  }
-
+function CompanySignupClosed() {
   return (
     <AppShell role="public">
       <div className="mx-auto max-w-xl px-4 py-12 md:px-6">
-        <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Back</Link>
-        <h1 className="mt-4 text-3xl font-bold">Company signup</h1>
-        <p className="mt-1 text-muted-foreground">Post jobs and hire directly. Transparent hiring.</p>
+        <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+          <ArrowLeft className="h-4 w-4" />
+          Back
+        </Link>
 
-
-        <form onSubmit={onSubmit} className="mt-8 space-y-4 rounded-xl border border-border bg-card p-6">
-          <Field label="Company name" value={form.companyName} onChange={upd("companyName")} required />
-          <Field label="UEN" value={form.uen} onChange={upd("uen")} required error={fieldErrors.uen} placeholder="e.g. 201912345A" />
-          <Select label="Sector" value={form.sector} onChange={upd("sector")} options={SECTORS} />
-          <Field label="Contact person name" value={form.contactName} onChange={upd("contactName")} required />
-          <Field label="Contact person number" value={form.contactPhone} onChange={upd("contactPhone")} required />
-          <Field label="Company email" type="email" value={form.email} onChange={upd("email")} required error={fieldErrors.email} placeholder="you@yourcompany.com" />
-          <Field label="Password" type="password" value={form.password} onChange={upd("password")} required />
-          <Select label="Work pass types accepted" value={form.workPass} onChange={upd("workPass")} options={WORK_PASS} />
-
-          {err && <p className="text-sm text-destructive">{err}</p>}
-
-          <button disabled={loading} className="w-full rounded-md bg-primary py-3 font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60">
-            {loading ? "Creating..." : "Create company account"}
-          </button>
-          <p className="text-center text-sm text-muted-foreground">
-            Already have an account? <Link to="/login" className="font-medium text-primary hover:underline">Log in</Link>
+        <div className="mt-8 rounded-xl border border-border bg-card p-8 text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+            <Building2 className="h-6 w-6 text-primary" />
+          </div>
+          <h1 className="mt-4 text-2xl font-bold">Company sign-ups are temporarily closed</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            We are currently focused on onboarding workers. Company registrations will reopen soon.
           </p>
-        </form>
+          <div className="mt-6 flex flex-col gap-3">
+            <Link
+              to="/signup/worker"
+              className="inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 font-semibold text-accent-foreground hover:opacity-90"
+            >
+              I'm a Worker — Sign Up
+            </Link>
+            <p className="text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <Link to="/login" className="font-medium text-primary hover:underline">
+                Log in
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </AppShell>
   );
 }
 
-function Field({ label, error, ...props }: { label: string; error?: string } & React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-sm font-medium">{label}</span>
-      <input {...props} className={`w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus:ring-2 ${error ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-input focus:border-primary focus:ring-primary/20"}`} />
-      {error && <span className="mt-1 block text-xs text-destructive">{error}</span>}
-    </label>
-  );
-}
-
-function Select({ label, value, onChange, options }: { label: string; value: string; onChange: React.ChangeEventHandler<HTMLSelectElement>; options: readonly string[] }) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-sm font-medium">{label}</span>
-      <select value={value} onChange={onChange} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
-        {options.map(o => <option key={o} value={o}>{o}</option>)}
-      </select>
-    </label>
-  );
-}
