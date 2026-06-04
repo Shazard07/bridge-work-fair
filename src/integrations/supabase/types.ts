@@ -131,8 +131,10 @@ export type Database = {
           date_of_birth: string
           education: string | null
           expected_salary: number | null
+          expected_salary_day: number | null
           language: Database["public"]["Enums"]["language"]
           last_drawn_salary: number | null
+          last_drawn_salary_day: number | null
           nationality: Database["public"]["Enums"]["nationality"]
           overseas_experiences: Json
           sector: Database["public"]["Enums"]["sector"]
@@ -151,8 +153,10 @@ export type Database = {
           date_of_birth: string
           education?: string | null
           expected_salary?: number | null
+          expected_salary_day?: number | null
           language: Database["public"]["Enums"]["language"]
           last_drawn_salary?: number | null
+          last_drawn_salary_day?: number | null
           nationality: Database["public"]["Enums"]["nationality"]
           overseas_experiences?: Json
           sector: Database["public"]["Enums"]["sector"]
@@ -171,8 +175,10 @@ export type Database = {
           date_of_birth?: string
           education?: string | null
           expected_salary?: number | null
+          expected_salary_day?: number | null
           language?: Database["public"]["Enums"]["language"]
           last_drawn_salary?: number | null
+          last_drawn_salary_day?: number | null
           nationality?: Database["public"]["Enums"]["nationality"]
           overseas_experiences?: Json
           sector?: Database["public"]["Enums"]["sector"]
