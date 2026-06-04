@@ -29,16 +29,28 @@ function CompanySignup() {
     workPass: "Both" as typeof WORK_PASS[number],
   });
   const [err, setErr] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{ uen?: string; email?: string }>({});
   const [loading, setLoading] = useState(false);
   const upd = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setForm({ ...form, [k]: e.target.value });
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErr(null);
+
+    const uen = form.uen.trim().toUpperCase();
+    const email = form.email.trim().toLowerCase();
+    const domain = email.split("@")[1] ?? "";
+
+    const fe: { uen?: string; email?: string } = {};
+    if (!UEN_REGEX.test(uen)) fe.uen = "Enter a valid Singapore UEN (e.g. 201912345A or T05LL1234B).";
+    if (!domain || FREE_EMAIL_DOMAINS.has(domain)) fe.email = "Please use your company email address — free email providers aren't accepted.";
+    setFieldErrors(fe);
+    if (fe.uen || fe.email) return;
+
     setLoading(true);
 
     const { data, error } = await supabase.auth.signUp({
-      email: form.email, password: form.password,
+      email, password: form.password,
       options: { emailRedirectTo: `${window.location.origin}/company` },
     });
     if (error) { setErr(error.message); setLoading(false); return; }
@@ -53,7 +65,7 @@ function CompanySignup() {
     const { error: cErr } = await supabase.from("company_profiles").insert({
       user_id: user.id,
       company_name: form.companyName,
-      uen: form.uen,
+      uen,
       sector: form.sector,
       contact_name: form.contactName,
       contact_phone: form.contactPhone,
@@ -71,6 +83,7 @@ function CompanySignup() {
         <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Back</Link>
         <h1 className="mt-4 text-3xl font-bold">Company signup</h1>
         <p className="mt-1 text-muted-foreground">Post jobs and hire directly. Transparent hiring.</p>
+
 
         <form onSubmit={onSubmit} className="mt-8 space-y-4 rounded-xl border border-border bg-card p-6">
           <Field label="Company name" value={form.companyName} onChange={upd("companyName")} required />
