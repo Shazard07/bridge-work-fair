@@ -262,11 +262,30 @@ function Trust({ icon, label }: { icon: React.ReactNode; label: string }) {
   return <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-1 text-muted-foreground"><span className="text-foreground">{icon}</span>{label}</span>;
 }
 
-function ProfileModal({ w, name, phone, isContacted, isSaved, onClose, onSave, onContact }: {
-  w: Worker; name: string; phone: string | null; isContacted: boolean; isSaved: boolean;
+function ProfileModal({ w, name, isContacted, isSaved, onClose, onSave, onContact }: {
+  w: Worker; name: string; isContacted: boolean; isSaved: boolean;
   onClose: () => void; onSave: () => void; onContact: () => void;
 }) {
   const [revealed, setRevealed] = useState(isContacted);
+  const [phone, setPhone] = useState<string | null>(null);
+  const [phoneLoading, setPhoneLoading] = useState(false);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!revealed) return;
+    let cancelled = false;
+    setPhoneLoading(true);
+    setPhoneError(null);
+    (async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (supabase as any).rpc("get_worker_contact", { _worker_id: w.user_id });
+      if (cancelled) return;
+      if (error) setPhoneError(error.message);
+      else setPhone((data?.[0]?.phone as string | null) ?? null);
+      setPhoneLoading(false);
+    })();
+    return () => { cancelled = true; };
+  }, [revealed, w.user_id]);
 
   function handleContact() {
     if (!revealed) onContact();
@@ -315,15 +334,19 @@ function ProfileModal({ w, name, phone, isContacted, isSaved, onClose, onSave, o
           )}
 
           <Section title={<><Phone className="h-4 w-4" /> Contact</>}>
-            {revealed && phone ? (
+            {!revealed ? (
+              <p className="text-sm text-muted-foreground">Click "Contact worker" below to reveal contact details. The worker will be notified.</p>
+            ) : phoneLoading ? (
+              <p className="text-sm text-muted-foreground">Loading contact…</p>
+            ) : phoneError ? (
+              <p className="text-sm text-destructive">{phoneError}</p>
+            ) : phone ? (
               <div className="rounded-md border border-success/30 bg-success/5 p-3 text-sm">
                 <div className="font-semibold text-foreground">{phone}</div>
                 <p className="mt-1 text-xs text-muted-foreground">Reach out directly. This contact has been logged.</p>
               </div>
-            ) : revealed ? (
-              <p className="text-sm text-muted-foreground">No phone number on file.</p>
             ) : (
-              <p className="text-sm text-muted-foreground">Click "Contact worker" below to reveal contact details. The worker will be notified.</p>
+              <p className="text-sm text-muted-foreground">No phone number on file.</p>
             )}
           </Section>
         </div>
