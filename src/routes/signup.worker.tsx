@@ -50,6 +50,7 @@ function WorkerSignup() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErr(null);
+    if (!form.consent) { setErr("Please agree to the terms to continue."); return; }
     setLoading(true);
 
     const { data, error } = await supabase.auth.signUp({
