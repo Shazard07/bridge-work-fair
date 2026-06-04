@@ -11,6 +11,14 @@ export const Route = createFileRoute("/signup/company")({
 const SECTORS = ["Construction", "Marine"] as const;
 const WORK_PASS = ["Work Permit", "S Pass", "Both"] as const;
 
+const UEN_REGEX = /^(\d{8}[A-Z]|\d{9}[A-Z]|[TSR]\d{2}[A-Z]{2}\d{4}[A-Z])$/;
+const FREE_EMAIL_DOMAINS = new Set([
+  "gmail.com","googlemail.com","yahoo.com","yahoo.com.sg","hotmail.com","hotmail.sg",
+  "outlook.com","live.com","msn.com","icloud.com","me.com","aol.com",
+  "proton.me","protonmail.com","qq.com","163.com","126.com","mail.com",
+  "zoho.com","gmx.com","yandex.com",
+]);
+
 function CompanySignup() {
   const nav = useNavigate();
   const [form, setForm] = useState({
