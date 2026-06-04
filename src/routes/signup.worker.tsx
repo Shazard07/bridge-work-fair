@@ -191,6 +191,8 @@ function WorkerSignup() {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="Last drawn salary (SGD/month)" type="number" min={0} value={form.lastSalary} onChange={upd("lastSalary")} />
               <Field label="Expected salary (SGD/month)" type="number" min={0} value={form.expectedSalary} onChange={upd("expectedSalary")} />
+              <Field label="Last drawn salary (SGD/day)" type="number" min={0} value={form.lastSalaryDay} onChange={upd("lastSalaryDay")} />
+              <Field label="Expected salary (SGD/day)" type="number" min={0} value={form.expectedSalaryDay} onChange={upd("expectedSalaryDay")} />
             </div>
           </Card>
 
