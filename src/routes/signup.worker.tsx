@@ -79,6 +79,8 @@ function WorkerSignup() {
       certifications: form.certifications || null,
       last_drawn_salary: form.lastSalary ? parseInt(form.lastSalary, 10) : null,
       expected_salary: form.expectedSalary ? parseInt(form.expectedSalary, 10) : null,
+      last_drawn_salary_day: form.lastSalaryDay ? parseInt(form.lastSalaryDay, 10) : null,
+      expected_salary_day: form.expectedSalaryDay ? parseInt(form.expectedSalaryDay, 10) : null,
       available_now: form.availableNow,
       available_from: form.availableNow ? null : (form.availableFrom || null),
       sg_experiences: sgExp,
