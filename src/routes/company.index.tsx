@@ -179,7 +179,6 @@ function CompanyDashboard() {
         <ProfileModal
           w={openProfile}
           name={profiles[openProfile.user_id]?.full_name ?? "Worker"}
-          phone={profiles[openProfile.user_id]?.phone ?? null}
           isContacted={contactedIds.has(openProfile.user_id)}
           isSaved={saved.has(openProfile.user_id)}
           onClose={() => setOpenProfile(null)}
