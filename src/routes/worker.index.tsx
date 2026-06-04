@@ -220,7 +220,7 @@ function EditTab({ profile, onSaved }: { profile: WorkerProfile; onSaved: (p: Wo
       overseas_experiences: overseasExp,
       years_experience: yearsTotal,
     };
-    const { error } = await supabase.from("worker_profiles").update(update).eq("user_id", profile.user_id);
+    const { error } = await supabase.from("worker_profiles").update(update as never).eq("user_id", profile.user_id);
     setSaving(false);
     if (error) { setErr(error.message); return; }
     setMsg("Saved");
