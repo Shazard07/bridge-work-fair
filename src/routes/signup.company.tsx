@@ -11,6 +11,14 @@ export const Route = createFileRoute("/signup/company")({
 const SECTORS = ["Construction", "Marine"] as const;
 const WORK_PASS = ["Work Permit", "S Pass", "Both"] as const;
 
+const UEN_REGEX = /^(\d{8}[A-Z]|\d{9}[A-Z]|[TSR]\d{2}[A-Z]{2}\d{4}[A-Z])$/;
+const FREE_EMAIL_DOMAINS = new Set([
+  "gmail.com","googlemail.com","yahoo.com","yahoo.com.sg","hotmail.com","hotmail.sg",
+  "outlook.com","live.com","msn.com","icloud.com","me.com","aol.com",
+  "proton.me","protonmail.com","qq.com","163.com","126.com","mail.com",
+  "zoho.com","gmx.com","yandex.com",
+]);
+
 function CompanySignup() {
   const nav = useNavigate();
   const [form, setForm] = useState({
@@ -21,16 +29,28 @@ function CompanySignup() {
     workPass: "Both" as typeof WORK_PASS[number],
   });
   const [err, setErr] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{ uen?: string; email?: string }>({});
   const [loading, setLoading] = useState(false);
   const upd = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setForm({ ...form, [k]: e.target.value });
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErr(null);
+
+    const uen = form.uen.trim().toUpperCase();
+    const email = form.email.trim().toLowerCase();
+    const domain = email.split("@")[1] ?? "";
+
+    const fe: { uen?: string; email?: string } = {};
+    if (!UEN_REGEX.test(uen)) fe.uen = "Enter a valid Singapore UEN (e.g. 201912345A or T05LL1234B).";
+    if (!domain || FREE_EMAIL_DOMAINS.has(domain)) fe.email = "Please use your company email address — free email providers aren't accepted.";
+    setFieldErrors(fe);
+    if (fe.uen || fe.email) return;
+
     setLoading(true);
 
     const { data, error } = await supabase.auth.signUp({
-      email: form.email, password: form.password,
+      email, password: form.password,
       options: { emailRedirectTo: `${window.location.origin}/company` },
     });
     if (error) { setErr(error.message); setLoading(false); return; }
@@ -45,7 +65,7 @@ function CompanySignup() {
     const { error: cErr } = await supabase.from("company_profiles").insert({
       user_id: user.id,
       company_name: form.companyName,
-      uen: form.uen,
+      uen,
       sector: form.sector,
       contact_name: form.contactName,
       contact_phone: form.contactPhone,
@@ -64,13 +84,14 @@ function CompanySignup() {
         <h1 className="mt-4 text-3xl font-bold">Company signup</h1>
         <p className="mt-1 text-muted-foreground">Post jobs and hire directly. Transparent hiring.</p>
 
+
         <form onSubmit={onSubmit} className="mt-8 space-y-4 rounded-xl border border-border bg-card p-6">
           <Field label="Company name" value={form.companyName} onChange={upd("companyName")} required />
-          <Field label="UEN" value={form.uen} onChange={upd("uen")} required />
+          <Field label="UEN" value={form.uen} onChange={upd("uen")} required error={fieldErrors.uen} placeholder="e.g. 201912345A" />
           <Select label="Sector" value={form.sector} onChange={upd("sector")} options={SECTORS} />
           <Field label="Contact person name" value={form.contactName} onChange={upd("contactName")} required />
           <Field label="Contact person number" value={form.contactPhone} onChange={upd("contactPhone")} required />
-          <Field label="Email" type="email" value={form.email} onChange={upd("email")} required />
+          <Field label="Company email" type="email" value={form.email} onChange={upd("email")} required error={fieldErrors.email} placeholder="you@yourcompany.com" />
           <Field label="Password" type="password" value={form.password} onChange={upd("password")} required />
           <Select label="Work pass types accepted" value={form.workPass} onChange={upd("workPass")} options={WORK_PASS} />
 
@@ -88,11 +109,12 @@ function CompanySignup() {
   );
 }
 
-function Field({ label, ...props }: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
+function Field({ label, error, ...props }: { label: string; error?: string } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <label className="block">
       <span className="mb-1.5 block text-sm font-medium">{label}</span>
-      <input {...props} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
+      <input {...props} className={`w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus:ring-2 ${error ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-input focus:border-primary focus:ring-primary/20"}`} />
+      {error && <span className="mt-1 block text-xs text-destructive">{error}</span>}
     </label>
   );
 }
