@@ -29,7 +29,7 @@ type Worker = {
   overseas_experiences: OverseasExperience[];
 };
 
-type WorkerProfileMeta = { user_id: string; full_name: string; phone: string | null };
+type WorkerProfileMeta = { user_id: string; full_name: string };
 
 function CompanyDashboard() {
   const { user, loading: authLoading } = useAuth();
