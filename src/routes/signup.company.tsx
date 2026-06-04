@@ -87,11 +87,11 @@ function CompanySignup() {
 
         <form onSubmit={onSubmit} className="mt-8 space-y-4 rounded-xl border border-border bg-card p-6">
           <Field label="Company name" value={form.companyName} onChange={upd("companyName")} required />
-          <Field label="UEN" value={form.uen} onChange={upd("uen")} required />
+          <Field label="UEN" value={form.uen} onChange={upd("uen")} required error={fieldErrors.uen} placeholder="e.g. 201912345A" />
           <Select label="Sector" value={form.sector} onChange={upd("sector")} options={SECTORS} />
           <Field label="Contact person name" value={form.contactName} onChange={upd("contactName")} required />
           <Field label="Contact person number" value={form.contactPhone} onChange={upd("contactPhone")} required />
-          <Field label="Email" type="email" value={form.email} onChange={upd("email")} required />
+          <Field label="Company email" type="email" value={form.email} onChange={upd("email")} required error={fieldErrors.email} placeholder="you@yourcompany.com" />
           <Field label="Password" type="password" value={form.password} onChange={upd("password")} required />
           <Select label="Work pass types accepted" value={form.workPass} onChange={upd("workPass")} options={WORK_PASS} />
 
