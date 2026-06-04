@@ -59,7 +59,7 @@ function CompanyDashboard() {
     (async () => {
       const [{ data: w }, { data: p }, { data: sv }, { data: ct }] = await Promise.all([
         supabase.from("worker_profiles").select("*"),
-        supabase.from("profiles").select("user_id, full_name, phone"),
+        supabase.from("profiles").select("user_id, full_name"),
         supabase.from("saved_workers").select("worker_id").eq("company_id", user.id),
         supabase.from("worker_contacts").select("worker_id").eq("company_id", user.id),
       ]);
