@@ -28,6 +28,8 @@ function WorkerSignup() {
     certifications: "",
     lastSalary: "",
     expectedSalary: "",
+    lastSalaryDay: "",
+    expectedSalaryDay: "",
     availableNow: true,
     availableFrom: "",
   });
@@ -77,6 +79,8 @@ function WorkerSignup() {
       certifications: form.certifications || null,
       last_drawn_salary: form.lastSalary ? parseInt(form.lastSalary, 10) : null,
       expected_salary: form.expectedSalary ? parseInt(form.expectedSalary, 10) : null,
+      last_drawn_salary_day: form.lastSalaryDay ? parseInt(form.lastSalaryDay, 10) : null,
+      expected_salary_day: form.expectedSalaryDay ? parseInt(form.expectedSalaryDay, 10) : null,
       available_now: form.availableNow,
       available_from: form.availableNow ? null : (form.availableFrom || null),
       sg_experiences: sgExp,
@@ -187,6 +191,8 @@ function WorkerSignup() {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="Last drawn salary (SGD/month)" type="number" min={0} value={form.lastSalary} onChange={upd("lastSalary")} />
               <Field label="Expected salary (SGD/month)" type="number" min={0} value={form.expectedSalary} onChange={upd("expectedSalary")} />
+              <Field label="Last drawn salary (SGD/day)" type="number" min={0} value={form.lastSalaryDay} onChange={upd("lastSalaryDay")} />
+              <Field label="Expected salary (SGD/day)" type="number" min={0} value={form.expectedSalaryDay} onChange={upd("expectedSalaryDay")} />
             </div>
           </Card>
 
