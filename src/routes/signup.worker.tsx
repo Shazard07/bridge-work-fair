@@ -205,7 +205,16 @@ function WorkerSignup() {
 
           {err && <p className="text-sm text-destructive">{err}</p>}
 
-          <button disabled={loading} className="w-full rounded-md bg-accent py-3 font-semibold text-accent-foreground hover:opacity-90 disabled:opacity-60">
+          <label className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
+            <input type="checkbox" checked={form.consent}
+              onChange={(e) => setForm({ ...form, consent: e.target.checked })}
+              className="mt-0.5 h-5 w-5 shrink-0 accent-primary" />
+            <span className="text-sm text-muted-foreground">
+              I consent and agree to share my personal and professional information with registered companies on getWorkers so they can view my profile and contact me about job opportunities.
+            </span>
+          </label>
+
+          <button disabled={loading || !form.consent} className="w-full rounded-md bg-accent py-3 font-semibold text-accent-foreground hover:opacity-90 disabled:opacity-60">
             {loading ? "Creating..." : "Create free account"}
           </button>
           <p className="text-center text-xs text-muted-foreground">Free during MVP. No payment ever required from workers.</p>
