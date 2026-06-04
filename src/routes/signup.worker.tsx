@@ -32,6 +32,7 @@ function WorkerSignup() {
     expectedSalaryDay: "",
     availableNow: true,
     availableFrom: "",
+    consent: false,
   });
   const [sgExp, setSgExp] = useState<SgExperience[]>([]);
   const [overseasExp, setOverseasExp] = useState<OverseasExperience[]>([]);
