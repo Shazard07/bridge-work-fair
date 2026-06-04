@@ -60,9 +60,14 @@ function WorkerSignup() {
     if (!user) { setErr("Check your email to confirm your account, then log in."); setLoading(false); return; }
 
     const { error: pErr } = await supabase.from("profiles").insert({
-      user_id: user.id, role: "worker", full_name: form.name, phone: form.mobile,
+      user_id: user.id, role: "worker", full_name: form.name,
     });
     if (pErr) { setErr(pErr.message); setLoading(false); return; }
+
+    const { error: sErr } = await supabase.from("worker_sensitive").insert({
+      user_id: user.id, phone: form.mobile,
+    });
+    if (sErr) { setErr(sErr.message); setLoading(false); return; }
 
     const yearsTotal = totalYears(sgExp) + totalYears(overseasExp);
 
