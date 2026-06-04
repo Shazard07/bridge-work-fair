@@ -28,6 +28,8 @@ function WorkerSignup() {
     certifications: "",
     lastSalary: "",
     expectedSalary: "",
+    lastSalaryDay: "",
+    expectedSalaryDay: "",
     availableNow: true,
     availableFrom: "",
   });
