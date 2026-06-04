@@ -109,11 +109,12 @@ function CompanySignup() {
   );
 }
 
-function Field({ label, ...props }: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
+function Field({ label, error, ...props }: { label: string; error?: string } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <label className="block">
       <span className="mb-1.5 block text-sm font-medium">{label}</span>
-      <input {...props} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
+      <input {...props} className={`w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus:ring-2 ${error ? "border-destructive focus:border-destructive focus:ring-destructive/20" : "border-input focus:border-primary focus:ring-primary/20"}`} />
+      {error && <span className="mt-1 block text-xs text-destructive">{error}</span>}
     </label>
   );
 }
