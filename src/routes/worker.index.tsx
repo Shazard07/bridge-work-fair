@@ -38,11 +38,35 @@ type Contact = {
   created_at: string;
 };
 
+type JobPosting = {
+  id: string;
+  title: string;
+  company_name: string;
+  sector: "Construction" | "Marine";
+  location: string;
+  salary_min: number | null;
+  salary_max: number | null;
+  salary_period: string;
+  description: string;
+  requirements: string | null;
+  work_pass_accepted: string;
+  created_at: string;
+};
+
+type JobApplication = {
+  id: string;
+  job_id: string;
+  worker_id: string;
+  status: string;
+  note: string | null;
+  created_at: string;
+};
+
 const NATIONALITIES = ["India", "Bangladesh", "Thailand", "China"] as const;
 const LANGUAGES = ["Tamil", "Hindi", "Bengali", "Thai", "Mandarin"] as const;
 const SECTORS = ["Construction", "Marine"] as const;
 
-type Tab = "view" | "edit" | "contacts";
+type Tab = "view" | "edit" | "jobs" | "applied" | "contacts";
 
 function WorkerDashboard() {
   const { user, loading: authLoading } = useAuth();
