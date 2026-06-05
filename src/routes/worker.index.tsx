@@ -74,6 +74,8 @@ function WorkerDashboard() {
   const [profile, setProfile] = useState<WorkerProfile | null>(null);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [companies, setCompanies] = useState<Record<string, string>>({});
+  const [jobs, setJobs] = useState<JobPosting[]>([]);
+  const [applications, setApplications] = useState<JobApplication[]>([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<Tab>("view");
 
@@ -82,19 +84,41 @@ function WorkerDashboard() {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const [{ data: w }, { data: ct }, { data: cp }] = await Promise.all([
+      const [{ data: w }, { data: ct }, { data: cp }, { data: jp }, { data: ap }] = await Promise.all([
         supabase.from("worker_profiles").select("*").eq("user_id", user.id).maybeSingle(),
         supabase.from("worker_contacts").select("*").eq("worker_id", user.id).order("created_at", { ascending: false }),
         supabase.from("company_profiles").select("user_id, company_name"),
+        supabase.from("job_postings").select("*").eq("active", true).order("created_at", { ascending: false }),
+        supabase.from("job_applications").select("*").eq("worker_id", user.id).order("created_at", { ascending: false }),
       ]);
       setProfile(((w as unknown) as WorkerProfile | null));
       setContacts((ct as Contact[]) ?? []);
       const map: Record<string, string> = {};
       (cp ?? []).forEach((r: { user_id: string; company_name: string }) => { map[r.user_id] = r.company_name; });
       setCompanies(map);
+      setJobs((jp as JobPosting[]) ?? []);
+      setApplications((ap as JobApplication[]) ?? []);
       setLoading(false);
     })();
   }, [user]);
+
+  async function applyToJob(jobId: string) {
+    if (!user) return;
+    const { data, error } = await supabase.from("job_applications")
+      .insert({ job_id: jobId, worker_id: user.id } as never)
+      .select().single();
+    if (error) { alert(error.message); return; }
+    setApplications([data as JobApplication, ...applications]);
+    setTab("applied");
+  }
+
+  async function withdrawApplication(appId: string) {
+    const { error } = await supabase.from("job_applications").delete().eq("id", appId);
+    if (error) { alert(error.message); return; }
+    setApplications(applications.filter(a => a.id !== appId));
+  }
+
+  const appliedJobIds = new Set(applications.map(a => a.job_id));
 
   return (
     <AppShell role="worker">
@@ -102,10 +126,10 @@ function WorkerDashboard() {
         <h1 className="text-2xl font-bold md:text-3xl">My profile</h1>
         <p className="mt-1 text-sm text-muted-foreground">Companies discover you through your profile. Keep it up to date.</p>
 
-        <div className="mt-6 flex gap-1 border-b border-border">
-          {([["view", "Profile"], ["edit", "Edit profile"], ["contacts", `Contacts (${contacts.length})`]] as const).map(([k, label]) => (
+        <div className="mt-6 flex gap-1 border-b border-border overflow-x-auto">
+          {([["view", "Profile"], ["edit", "Edit profile"], ["jobs", `Jobs (${jobs.length})`], ["applied", `Applied (${applications.length})`], ["contacts", `Contacts (${contacts.length})`]] as const).map(([k, label]) => (
             <button key={k} onClick={() => setTab(k)}
-              className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${tab === k ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
+              className={`whitespace-nowrap px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${tab === k ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
               {label}
             </button>
           ))}
@@ -119,11 +143,91 @@ function WorkerDashboard() {
           <div className="mt-6">
             {tab === "view" && <ViewTab profile={profile} />}
             {tab === "edit" && <EditTab profile={profile} onSaved={(p) => { setProfile(p); setTab("view"); }} />}
+            {tab === "jobs" && <JobsTab jobs={jobs} appliedJobIds={appliedJobIds} onApply={applyToJob} />}
+            {tab === "applied" && <AppliedTab applications={applications} jobs={jobs} onWithdraw={withdrawApplication} />}
             {tab === "contacts" && <ContactsTab contacts={contacts} companies={companies} />}
           </div>
         )}
       </div>
     </AppShell>
+  );
+}
+
+function formatSalary(j: JobPosting) {
+  if (j.salary_min == null && j.salary_max == null) return null;
+  const range = j.salary_min && j.salary_max
+    ? `$${j.salary_min}–$${j.salary_max}`
+    : `$${j.salary_min ?? j.salary_max}`;
+  return `${range} / ${j.salary_period}`;
+}
+
+function JobsTab({ jobs, appliedJobIds, onApply }: { jobs: JobPosting[]; appliedJobIds: Set<string>; onApply: (id: string) => void }) {
+  if (jobs.length === 0) {
+    return <p className="rounded-md border border-dashed border-border p-6 text-center text-sm text-muted-foreground">No job postings available right now. Check back soon.</p>;
+  }
+  return (
+    <div className="space-y-4">
+      {jobs.map(j => {
+        const applied = appliedJobIds.has(j.id);
+        const sal = formatSalary(j);
+        return (
+          <article key={j.id} className="rounded-xl border border-border bg-card p-5 shadow-sm">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h3 className="text-base font-semibold">{j.title}</h3>
+                <p className="mt-0.5 text-sm text-muted-foreground">{j.company_name}</p>
+              </div>
+              <SectorBadge sector={j.sector} />
+            </div>
+            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> {j.location}</span>
+              {sal && <span className="inline-flex items-center gap-1"><Briefcase className="h-3.5 w-3.5" /> {sal}</span>}
+              <span>Work pass: {j.work_pass_accepted}</span>
+            </div>
+            <p className="mt-3 text-sm">{j.description}</p>
+            {j.requirements && <p className="mt-2 text-sm"><span className="font-medium">Requirements:</span> {j.requirements}</p>}
+            <div className="mt-4">
+              {applied ? (
+                <span className="inline-flex items-center rounded-md bg-success/10 px-3 py-1.5 text-sm font-semibold text-success">Applied</span>
+              ) : (
+                <button onClick={() => onApply(j.id)} className="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground hover:opacity-90">
+                  Apply now
+                </button>
+              )}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
+}
+
+function AppliedTab({ applications, jobs, onWithdraw }: { applications: JobApplication[]; jobs: JobPosting[]; onWithdraw: (id: string) => void }) {
+  if (applications.length === 0) {
+    return <p className="rounded-md border border-dashed border-border p-6 text-center text-sm text-muted-foreground">You haven't applied to any jobs yet. Browse the Jobs tab to get started.</p>;
+  }
+  const jobMap = new Map(jobs.map(j => [j.id, j]));
+  return (
+    <div className="space-y-3">
+      {applications.map(a => {
+        const j = jobMap.get(a.job_id);
+        return (
+          <div key={a.id} className="rounded-xl border border-border bg-card p-5 shadow-sm">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h3 className="text-base font-semibold">{j?.title ?? "Job posting"}</h3>
+                <p className="mt-0.5 text-sm text-muted-foreground">{j?.company_name ?? ""}{j ? ` · ${j.location}` : ""}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold capitalize text-primary">{a.status}</span>
+                <button onClick={() => onWithdraw(a.id)} className="text-xs text-muted-foreground hover:text-destructive">Withdraw</button>
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">Applied on {new Date(a.created_at).toLocaleDateString()}</p>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
