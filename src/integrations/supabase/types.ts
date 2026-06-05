@@ -50,6 +50,95 @@ export type Database = {
         }
         Relationships: []
       }
+      job_applications: {
+        Row: {
+          created_at: string
+          id: string
+          job_id: string
+          note: string | null
+          status: string
+          updated_at: string
+          worker_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          job_id: string
+          note?: string | null
+          status?: string
+          updated_at?: string
+          worker_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          job_id?: string
+          note?: string | null
+          status?: string
+          updated_at?: string
+          worker_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_applications_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "job_postings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_postings: {
+        Row: {
+          active: boolean
+          company_name: string
+          created_at: string
+          description: string
+          id: string
+          location: string
+          requirements: string | null
+          salary_max: number | null
+          salary_min: number | null
+          salary_period: string
+          sector: Database["public"]["Enums"]["sector"]
+          title: string
+          updated_at: string
+          work_pass_accepted: Database["public"]["Enums"]["work_pass_accepted"]
+        }
+        Insert: {
+          active?: boolean
+          company_name: string
+          created_at?: string
+          description: string
+          id?: string
+          location: string
+          requirements?: string | null
+          salary_max?: number | null
+          salary_min?: number | null
+          salary_period?: string
+          sector: Database["public"]["Enums"]["sector"]
+          title: string
+          updated_at?: string
+          work_pass_accepted?: Database["public"]["Enums"]["work_pass_accepted"]
+        }
+        Update: {
+          active?: boolean
+          company_name?: string
+          created_at?: string
+          description?: string
+          id?: string
+          location?: string
+          requirements?: string | null
+          salary_max?: number | null
+          salary_min?: number | null
+          salary_period?: string
+          sector?: Database["public"]["Enums"]["sector"]
+          title?: string
+          updated_at?: string
+          work_pass_accepted?: Database["public"]["Enums"]["work_pass_accepted"]
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
