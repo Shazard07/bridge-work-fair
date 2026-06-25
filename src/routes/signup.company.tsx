@@ -58,7 +58,7 @@ function CompanySignup() {
     if (!user) { setErr("Check your email to confirm your account, then log in."); setLoading(false); return; }
 
     const { error: pErr } = await supabase.from("profiles").insert({
-      user_id: user.id, role: "company", full_name: form.contactName, phone: form.contactPhone,
+      user_id: user.id, role: "company", full_name: form.contactName,
     });
     if (pErr) { setErr(pErr.message); setLoading(false); return; }
 
