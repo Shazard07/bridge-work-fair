@@ -34,9 +34,9 @@ function Landing() {
               <Link to="/signup/worker" className="inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 text-base font-semibold text-accent-foreground hover:opacity-90 sm:w-auto">
                 I'm a Worker
               </Link>
-              <span className="inline-flex w-full items-center justify-center rounded-md border border-border bg-muted px-6 py-3 text-base font-semibold text-muted-foreground cursor-not-allowed sm:w-auto" title="Company sign-ups are temporarily closed">
+              <Link to="/signup/company" className="inline-flex w-full items-center justify-center rounded-md border border-border bg-card px-6 py-3 text-base font-semibold text-foreground hover:bg-muted sm:w-auto">
                 I'm a Company
-              </span>
+              </Link>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
               Already have an account? <Link to="/login" className="font-semibold text-primary hover:underline">Log in</Link>
