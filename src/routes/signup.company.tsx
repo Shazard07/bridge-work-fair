@@ -43,7 +43,7 @@ function CompanySignup() {
 
     const fe: { uen?: string; email?: string } = {};
     if (!UEN_REGEX.test(uen)) fe.uen = "Enter a valid Singapore UEN (e.g. 201912345A or T05LL1234B).";
-    if (!domain || FREE_EMAIL_DOMAINS.has(domain)) fe.email = "Please use your company email address — free email providers aren't accepted.";
+    if (!domain) fe.email = "Enter a valid email address.";
     setFieldErrors(fe);
     if (fe.uen || fe.email) return;
 
